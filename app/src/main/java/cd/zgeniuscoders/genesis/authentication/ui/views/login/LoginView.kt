@@ -73,7 +73,7 @@ fun LoginBody(
         verticalArrangement = Arrangement.Center
     ) {
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(50.dp))
         AuthHeader(
             title = "Se connecter",
             subtitle = "Veuillez entrer vos identifiants pour accéder à votre compte."
@@ -82,13 +82,14 @@ fun LoginBody(
         if (state.hasFormError) {
             Text(
                 state.error!!,
-                color = Color.Red
+                color = MaterialTheme.colorScheme.error,
+                textAlign = TextAlign.Center
             )
         }
 
         TextFieldComponent(
             textValue = state.email,
-            label = "Email", shape = RoundedCornerShape(topStart = 15.dp, bottomEnd = 15.dp),
+            label = "Email",
             keyboardType = KeyboardType.Email,
             content = {
                 Icon(Icons.Filled.Email, contentDescription = null)
@@ -98,10 +99,9 @@ fun LoginBody(
             },
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(5.dp))
 
         TextFieldComponent(
-            shape = RoundedCornerShape(topStart = 15.dp, bottomEnd = 15.dp),
             textValue = state.password, label = "Mot de passe",
             keyboardType = KeyboardType.Password,
             isPasswordField = true,
@@ -152,23 +152,6 @@ fun LoginBody(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-
-        ) {
-            Text(text = "Vous n'avez de compte ? Inscrivez-vous")
-            Text(
-                "ici",
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .padding(start = 5.dp)
-                    .clickable {
-                        navHostController.navigate(Routes.register.route)
-                    }
-            )
-        }
     }
 
 }

@@ -26,20 +26,11 @@ class ResetPasswordViewModel(
     private fun validate() {
         viewModelScope.launch {
 
-            if (state.password.isEmpty()) {
-                state = state.copy(
-                    hasFormError = true,
-                    isLoading = false,
-                    error = "Please enter a password"
-                )
-                return@launch
-            }
-
             if (state.password.length < 6) {
                 state = state.copy(
                     hasFormError = true,
                     isLoading = false,
-                    error = "The password must be at least 6 characters"
+                    error = "Le mot de passe doit avoir plus de 6 caractères"
                 )
                 return@launch
             }
@@ -48,7 +39,7 @@ class ResetPasswordViewModel(
                 state = state.copy(
                     hasFormError = true,
                     isLoading = false,
-                    error = "The password does not match the confirmation password"
+                    error = "Le mot de passe ne correspond pas"
                 )
                 return@launch
             }
@@ -62,6 +53,7 @@ class ResetPasswordViewModel(
         validate()
         if(state.isValidated){
             // do something
+            state = state.copy(isLogged = true)
         }
     }
 

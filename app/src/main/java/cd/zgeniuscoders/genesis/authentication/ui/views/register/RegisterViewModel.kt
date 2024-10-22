@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class RegisterViewModel(
     private val userInteractor: UserInteractor,
-    val sessionService: SessionService
+    private val sessionService: SessionService
 ) : ViewModel() {
 
     var state by mutableStateOf(RegisterState())
@@ -41,28 +41,33 @@ class RegisterViewModel(
                 isLoading = false,
                 hasFormError = true,
             )
+        } else if(!isValidUsername(state.username)){
+            state = this@RegisterViewModel.state.copy(
+                error = "Le nom d'utilisateur saisie n'est pas valide.",
+                isLoading = false,
+                hasFormError = true,
+            )
+        }
+        else if (!isValidEmail(state.email)) {
+            state = this@RegisterViewModel.state.copy(
+                error = "L'adresse email saisie n'est pas valide. Veuillez vérifier et réessayer.",
+                isLoading = false,
+                hasFormError = true,
+            )
+        } else if (state.password.length < 6) {
+            state = this@RegisterViewModel.state.copy(
+                error = "Le mot de passe doit avoir plus de 6 caractères",
+                isLoading = false,
+                hasFormError = true,
+            )
+        } else if (state.password != state.confirmPassword) {
+            state = this@RegisterViewModel.state.copy(
+                error = "Le mot de passe ne correspond pas",
+                isLoading = false,
+                hasFormError = true,
+            )
         } else {
-
-            state = if (!state.email.contains("@")) {
-                this@RegisterViewModel.state.copy(
-                    error = "L'adresse email saisie n'est pas valide. Veuillez vérifier et réessayer.",
-                    isLoading = false,
-                    hasFormError = true,
-                )
-            } else {
-                state.copy(hasFormError = false)
-            }
-
-            state = if (state.password != state.confirmPassword) {
-                this@RegisterViewModel.state.copy(
-                    error = "Le mot de passe ne correspond pas",
-                    isLoading = false,
-                    hasFormError = true,
-                )
-            } else {
-                state.copy(hasFormError = false)
-            }
-
+            state = state.copy(hasFormError = false)
         }
     }
 
@@ -112,6 +117,17 @@ class RegisterViewModel(
         }
 
 
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$".toRegex()
+        return emailRegex.matches(email)
+    }
+
+    private fun isValidUsername(username: String): Boolean {
+        // Règles : 3-20 caractères, commence par une lettre, suivi de lettres, chiffres ou underscores
+        val usernameRegex = "^[A-Za-z][A-Za-z0-9_]{2,19}$".toRegex()
+        return usernameRegex.matches(username)
     }
 
 }

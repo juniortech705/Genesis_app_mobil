@@ -7,6 +7,7 @@ data class ResetPasswordState(
     var error: String? = null,
     var successMessage: String? = null,
     var isValidated: Boolean=false,
-    var hasFormError: Boolean=false
+    var hasFormError: Boolean=false,
+    val isLogged: Boolean = false
 )
 

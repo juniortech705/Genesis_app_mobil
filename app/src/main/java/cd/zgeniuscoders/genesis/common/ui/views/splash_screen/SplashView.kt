@@ -58,11 +58,11 @@ fun SplashView(navHostController: NavHostController) {
         LaunchedEffect(true) {
             delay(2000)
 
-//            if (isLogged.value) {
+            if (isLogged.value) {
                 navHostController.navigate(Routes.home.route)
-//            } else {
-//                navHostController.navigate(Routes.login.route)
-//            }
+            } else {
+                navHostController.navigate(Routes.login.route)
+            }
 
         }
     }

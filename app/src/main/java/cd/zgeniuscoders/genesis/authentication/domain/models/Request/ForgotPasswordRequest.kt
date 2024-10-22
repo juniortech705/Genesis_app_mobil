@@ -1,5 +1,5 @@
 package cd.zgeniuscoders.genesis.authentication.domain.models.Request
 
 data class ForgotPasswordRequest(
-    val password: String
+    val email: String
 )
