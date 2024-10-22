@@ -4,6 +4,7 @@ import cd.zgeniuscoders.genesis.authentication.domain.services.AuthenticationApi
 import cd.zgeniuscoders.genesis.authentication.domain.services.AuthenticationService
 import cd.zgeniuscoders.genesis.authentication.domain.usecases.UserInteractor
 import cd.zgeniuscoders.genesis.authentication.ui.framework.AuthenticationServiceImpl
+import cd.zgeniuscoders.genesis.authentication.ui.framework.FakeAuthenticationService
 import cd.zgeniuscoders.genesis.authentication.ui.framework.SessionService
 import cd.zgeniuscoders.genesis.authentication.ui.views.forgot.ForgotPasswordViewModel
 import cd.zgeniuscoders.genesis.authentication.ui.views.login.LoginViewModel
@@ -25,7 +26,7 @@ val userModule = module {
             .build()
     }
 
-    single <AuthenticationApi>{
+    single<AuthenticationApi> {
         val moshi = get<Moshi>()
 
         Retrofit.Builder()
@@ -40,7 +41,8 @@ val userModule = module {
         val api = get<AuthenticationApi>()
         val context = androidContext()
 
-        AuthenticationServiceImpl(api, context)
+//        AuthenticationServiceImpl(api, context)
+        FakeAuthenticationService()
     }
 
     single<UserInteractor> {
@@ -55,12 +57,12 @@ val userModule = module {
     }
 
     viewModel<LoginViewModel> {
-        val userInteractor=get<UserInteractor>()
+        val userInteractor = get<UserInteractor>()
         LoginViewModel(userInteractor, get<SessionService>())
     }
 
     viewModel<ForgotPasswordViewModel> {
-        val userInteractor=get<UserInteractor>()
+        val userInteractor = get<UserInteractor>()
         ForgotPasswordViewModel(userInteractor)
     }
 

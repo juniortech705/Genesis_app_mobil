@@ -26,7 +26,7 @@ fun AuthHeader(
         modifier = Modifier.size(100.dp)
     )
 
-    Text(title, fontSize = 24.sp, fontWeight = FontWeight.Medium)
+    Text(title, fontSize = 24.sp, fontWeight = FontWeight.Medium, textAlign = TextAlign.Center)
 
     Text(
         subtitle,

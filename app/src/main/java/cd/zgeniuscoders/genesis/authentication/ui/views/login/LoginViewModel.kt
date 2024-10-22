@@ -41,6 +41,13 @@ class LoginViewModel(
                     hasFormError = true,
                 )
                 return@launch
+            } else if (!state.email.contains("@")) {
+                state = this@LoginViewModel.state.copy(
+                    error = "Veuillez entrer une adresse e-mail valide",
+                    isLoading = false,
+                    hasFormError = true,
+                )
+                return@launch
             } else {
                 state = state.copy(isLoading = false, isValidated = true)
             }

@@ -15,15 +15,18 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -47,7 +50,7 @@ fun ForgotPasswordView(navHostController: NavHostController) {
         val submitForm: () -> Unit = {
             coroutineScope.launch {
                 vm.sendEmail()
-                if (!state.hasFormError) {
+                if (state.isLogged) {
                     navHostController.navigate(Routes.reset_password.route)
                 }
             }
@@ -74,12 +77,6 @@ fun ForgotPasswordBody(
             verticalArrangement = Arrangement.Center
         ) {
 
-            Image(
-                painter = painterResource(id = R.drawable.logo_genesis),
-                contentDescription = "genesis logo",
-                modifier = Modifier.size(180.dp)
-            )
-
             Spacer(modifier = Modifier.height(20.dp))
 
             AuthHeader(
@@ -89,14 +86,15 @@ fun ForgotPasswordBody(
 
             if (state.hasFormError) {
                 Text(
-                    state.emailError,
-                    color = Color.Red
+                    state.error,
+                    color = MaterialTheme.colorScheme.error,
+                    textAlign = TextAlign.Center
                 )
             }
 
             TextFieldComponent(
                 textValue = state.email,
-                label = "Email", shape = RoundedCornerShape(topStart = 15.dp, bottomEnd = 15.dp),
+                label = "Email",
                 keyboardType = KeyboardType.Email,
                 content = {
                     Icon(Icons.Filled.Email, contentDescription = null)
@@ -104,7 +102,6 @@ fun ForgotPasswordBody(
                 onValueChange = {
                     onEvent(ForgotPasswordEvent.EmailChange(it))
                 },
-                isPasswordField = true
             )
 
             Spacer(modifier = Modifier.height(20.dp))

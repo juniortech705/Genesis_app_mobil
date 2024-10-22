@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
@@ -26,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -70,7 +72,7 @@ fun RegisterBody(
             verticalArrangement = Arrangement.Center
         ) {
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.height(50.dp))
             AuthHeader(
                 title = "Créer un compte",
                 subtitle = "Remplissez les champs ci-dessous pour créer votre compte."
@@ -79,7 +81,8 @@ fun RegisterBody(
             if (state.hasFormError) {
                 Text(
                     state.error!!,
-                    color = Color.Red
+                    color = MaterialTheme.colorScheme.error,
+                    textAlign = TextAlign.Center
                 )
             }
 
@@ -88,7 +91,6 @@ fun RegisterBody(
             TextFieldComponent(
                 textValue = state.email,
                 label = "Email",
-                shape = RoundedCornerShape(topStart = 15.dp, bottomEnd = 15.dp),
                 keyboardType = KeyboardType.Email,
                 content = {
                     Icon(Icons.Filled.Email, contentDescription = null)
@@ -98,12 +100,11 @@ fun RegisterBody(
                 },
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(5.dp))
 
             TextFieldComponent(
                 textValue = state.username,
                 label = "Nom d'utilisateur",
-                shape = RoundedCornerShape(topStart = 15.dp, bottomEnd = 15.dp),
                 keyboardType = KeyboardType.Text,
                 content = {
                     Icon(Icons.Filled.Person, contentDescription = null)
@@ -113,12 +114,11 @@ fun RegisterBody(
                 },
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(5.dp))
 
             TextFieldComponent(
                 textValue = state.password,
                 label = "Mot de passe",
-                shape = RoundedCornerShape(topStart = 15.dp, bottomEnd = 15.dp),
                 keyboardType = KeyboardType.Password,
                 content = {
                     Icon(Icons.Filled.Lock, contentDescription = null)
@@ -129,12 +129,11 @@ fun RegisterBody(
                 isPasswordField = true
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(5.dp))
 
             TextFieldComponent(
                 textValue = state.confirmPassword,
                 label = "Confirmer le Mot de passe",
-                shape = RoundedCornerShape(topStart = 15.dp, bottomEnd = 15.dp),
                 keyboardType = KeyboardType.Password,
                 content = {
                     Icon(Icons.Filled.Lock, contentDescription = null)
@@ -159,24 +158,21 @@ fun RegisterBody(
                 Text("Créer mon compte")
             }
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.height(10.dp))
 
-            Row(
-                horizontalArrangement = Arrangement.Center,
+            Button(
+                onClick = {
+                    navHostController.navigate(Routes.login.route)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(8.dp),
             ) {
-                Text(text = "Vous avez dèja un compte ? Connectez-vous")
-                Text(
-                    "ici",
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier
-                        .padding(start = 5.dp)
-                        .clickable {
-                            navHostController.popBackStack()
-                        }
-                )
+                Text("Se conncter")
             }
+
+            Spacer(modifier = Modifier.weight(1f))
 
         }
     }
