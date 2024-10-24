@@ -105,9 +105,9 @@ fun DeviceListPreview(modifier: Modifier = Modifier) {
         Scaffold { innerP ->
             DeviceLists(
                 isConnecting = false, isConnected = false, devices = listOf(
-                    BluetoothDeviceModel("Genis-BT", "bb:df:20d:4"),
-                    BluetoothDeviceModel("Genis-BT", "bb:df:20d:4"),
-                    BluetoothDeviceModel("Genis-BT", "bb:df:20d:4"),
+                    BluetoothDeviceModel("Genisis-BT", "bb:df:20d:4"),
+                    BluetoothDeviceModel("Genisis-BT", "bb:df:20d:4"),
+                    BluetoothDeviceModel("Genisis-BT", "bb:df:20d:4"),
                 )
             ) {
 

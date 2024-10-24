@@ -61,6 +61,21 @@ class HomeViewModel(
             }
 
             is HomeEvent.OnStopBuzzer -> state = state.copy(isTimerCountdownEnd = false)
+            HomeEvent.OnPowerDown -> {
+                state = if (state.powerLevel <= 3) {
+                    state.copy(powerLevel = 0)
+                } else {
+                    state.copy(powerLevel = state.powerLevel - 1)
+                }
+            }
+
+            HomeEvent.OnPowerUp -> {
+                state = if (state.powerLevel >= 3) {
+                    state.copy(powerLevel = 3)
+                } else {
+                    state.copy(powerLevel = state.powerLevel + 1)
+                }
+            }
         }
     }
 

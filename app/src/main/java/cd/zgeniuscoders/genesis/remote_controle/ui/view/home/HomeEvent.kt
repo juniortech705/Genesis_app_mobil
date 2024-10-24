@@ -14,4 +14,7 @@ sealed class HomeEvent {
     data object OnLaunchTimer: HomeEvent()
     data object OnStopTimer: HomeEvent()
     data object OnRunDevice: HomeEvent()
+
+    data object OnPowerUp: HomeEvent()
+    data object OnPowerDown: HomeEvent()
 }

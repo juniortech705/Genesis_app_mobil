@@ -74,14 +74,14 @@ fun HomeCardBanner(state: HomeState, messages: List<BluetoothMessage>, isConnect
                     } else {
                         if (!isConnected) {
                             Text(
-                                "Vous n'etes pas connecter a un rechaud",
+                                "Vous n'êtes pas connecté à un réchaud",
                                 fontWeight = FontWeight.Medium,
                                 color = Color.White,
                                 style = MaterialTheme.typography.labelMedium
                             )
                         } else {
                             Text(
-                                "Vous êtes maintenant connectés",
+                                "Vous êtes maintenant connecté",
                                 fontWeight = FontWeight.Medium,
                                 color = Color.White,
                                 style = MaterialTheme.typography.labelMedium
@@ -98,7 +98,11 @@ fun HomeCardBanner(state: HomeState, messages: List<BluetoothMessage>, isConnect
 
             LazyVerticalGrid(columns = GridCells.Fixed(2)) {
                 item {
-                    StoveInfo(value = "0", title = "Puissance", icon = Icons.Default.FlashOn)
+                    StoveInfo(
+                        value = "${state.powerLevel}",
+                        title = "Puissance",
+                        icon = Icons.Default.FlashOn
+                    )
                 }
                 item {
                     val regex = """([-+]?\d+\.\d{2})\s?°C""".toRegex()

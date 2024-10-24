@@ -48,6 +48,8 @@ class ShareViewModel(
             ShareEvent.PowerOff -> powerOn()
             ShareEvent.PowerOn -> powerOff()
             is ShareEvent.ConnectDevice -> connectToDevice(event.device)
+            ShareEvent.PowerDown -> powerDown()
+            ShareEvent.PowerUp -> powerUp()
         }
     }
 
@@ -188,13 +190,25 @@ class ShareViewModel(
 
     private fun powerOff() {
         viewModelScope.launch {
-            remoteControleInteractor.powerOn.run()
+            remoteControleInteractor.powerOff.run()
         }
     }
 
     private fun buzzer() {
         viewModelScope.launch {
             remoteControleInteractor.buzzer.run()
+        }
+    }
+
+    private fun powerUp() {
+        viewModelScope.launch {
+            remoteControleInteractor.powerUp.run()
+        }
+    }
+
+    private fun powerDown() {
+        viewModelScope.launch {
+            remoteControleInteractor.powerDown.run()
         }
     }
 }

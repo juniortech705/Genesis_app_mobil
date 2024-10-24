@@ -14,4 +14,5 @@ data class HomeState(
     val temperature: Float = 0.0f,
     val isDevicePower: Boolean = false,
     val timerStatus: TimerStatus = TimerStatus.Idle,
+    val powerLevel: Int = 0
 )

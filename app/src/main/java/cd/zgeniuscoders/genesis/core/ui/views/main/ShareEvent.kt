@@ -12,5 +12,10 @@ sealed interface ShareEvent {
 
     data object Buzzer : ShareEvent
 
+
+    data object PowerUp: ShareEvent
+
+    data object PowerDown: ShareEvent
+
     data class ConnectDevice(val device: BluetoothDeviceModel): ShareEvent
 }

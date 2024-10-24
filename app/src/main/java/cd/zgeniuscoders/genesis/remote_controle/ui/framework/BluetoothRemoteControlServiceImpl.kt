@@ -114,6 +114,14 @@ class BluetoothRemoteControlServiceImpl(
         trySendMessage("tone_on")
     }
 
+    override suspend fun powerUp() {
+        trySendMessage("power_up")
+    }
+
+    override suspend fun powerDown() {
+        trySendMessage("power_down")
+    }
+
     override fun startDiscovery() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !hasPermission(Manifest.permission.BLUETOOTH_SCAN)) {
             return

@@ -18,6 +18,10 @@ interface RemoteControlService {
 
     suspend fun buzzer()
 
+    suspend fun powerUp()
+
+    suspend fun powerDown()
+
     fun startDiscovery()
 
     fun stopDiscovery()
@@ -29,4 +33,5 @@ interface RemoteControlService {
     suspend fun getTemperature(): String
 
     fun release()
+
 }
