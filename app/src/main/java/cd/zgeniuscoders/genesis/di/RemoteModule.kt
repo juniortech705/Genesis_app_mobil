@@ -2,8 +2,11 @@ package cd.zgeniuscoders.genesis.di
 
 import cd.zgeniuscoders.genesis.authentication.domain.usecases.UserInteractor
 import cd.zgeniuscoders.genesis.authentication.ui.framework.SessionService
-import cd.zgeniuscoders.genesis.common.ui.views.main.ShareViewModel
+import cd.zgeniuscoders.genesis.core.ui.views.main.ShareViewModel
 import cd.zgeniuscoders.genesis.remote_controle.domain.services.BluetoothController
+import cd.zgeniuscoders.genesis.remote_controle.domain.services.RemoteControlService
+import cd.zgeniuscoders.genesis.remote_controle.domain.use_case.RemoteControleInteractor
+import cd.zgeniuscoders.genesis.remote_controle.ui.framework.BluetoothRemoteControlServiceImpl
 import cd.zgeniuscoders.genesis.remote_controle.ui.framework.NotificationService
 import cd.zgeniuscoders.genesis.remote_controle.ui.framework.bluetooth.AndroidBluetoothController
 import cd.zgeniuscoders.genesis.remote_controle.ui.view.home.HomeViewModel
@@ -14,15 +17,22 @@ import org.koin.dsl.module
 
 val remoteModule = module {
 
-    single<BluetoothController> {
+    single<RemoteControlService> {
         val appContext = androidContext()
-        AndroidBluetoothController(appContext)
+        BluetoothRemoteControlServiceImpl(appContext)
+    }
+
+    single<RemoteControleInteractor> {
+        RemoteControleInteractor.build(get<RemoteControlService>())
     }
 
 
     single<ShareViewModel> {
-        val controller = get<BluetoothController>()
-        ShareViewModel(controller, get<UserInteractor>(), get<SessionService>())
+        ShareViewModel(
+            get<UserInteractor>(),
+            get<SessionService>(),
+            get<RemoteControleInteractor>()
+        )
     }
 
 
@@ -30,7 +40,7 @@ val remoteModule = module {
         val appContext = androidContext()
         val notification = NotificationService(appContext)
 
-        HomeViewModel(appContext, notification)
+        HomeViewModel(appContext, notification,get<RemoteControleInteractor>())
     }
 
     viewModel<PairedDeviceViewModel> {
