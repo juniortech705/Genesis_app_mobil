@@ -70,7 +70,7 @@ class ShareViewModel(
     }
 
 
-    fun connectToDevice(device: BluetoothDeviceModel) {
+    private fun connectToDevice(device: BluetoothDeviceModel) {
         _state.update { it.copy(isConnecting = true) }
         deviceConnectionJob = remoteControleInteractor
             .connectToDevice

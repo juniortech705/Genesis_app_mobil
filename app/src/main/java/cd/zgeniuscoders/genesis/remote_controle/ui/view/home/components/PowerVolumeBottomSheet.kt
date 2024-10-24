@@ -52,8 +52,6 @@ fun PowerVolumeBottomSheet(
         ) {
             Column(
                 modifier = Modifier
-                    .padding(20.dp)
-                    .background(MaterialTheme.colorScheme.background)
             ) {
                 Text(
                     text = "Puissance",
@@ -62,11 +60,10 @@ fun PowerVolumeBottomSheet(
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Row(
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-
-                    var barCount = 3
 
                     IconButton(onClick = {
                         onShareEvent(ShareEvent.PowerUp)
