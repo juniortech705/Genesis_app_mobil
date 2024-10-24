@@ -7,18 +7,18 @@ import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
 import cd.zgeniuscoders.genesis.remote_controle.domain.models.BluetoothDevice
 import cd.zgeniuscoders.genesis.remote_controle.domain.models.BluetoothDeviceModel
-import cd.zgeniuscoders.genesis.remote_controle.domain.services.BluetoothController
+import cd.zgeniuscoders.genesis.remote_controle.domain.models.BluetoothMessage
 import cd.zgeniuscoders.genesis.remote_controle.domain.services.BluetoothDataTransferService
 import cd.zgeniuscoders.genesis.remote_controle.domain.services.ConnectionResult
 import cd.zgeniuscoders.genesis.remote_controle.domain.services.RemoteControlService
-import cd.zgeniuscoders.genesis.remote_controle.ui.framework.bluetooth.AndroidBluetoothController.Companion.SERVICE_UUID
 import cd.zgeniuscoders.genesis.remote_controle.ui.framework.bluetooth.BluetoothStateReceiver
 import cd.zgeniuscoders.genesis.remote_controle.ui.framework.bluetooth.FoundDeviceReceiver
 import cd.zgeniuscoders.genesis.remote_controle.ui.framework.extensions.toBluetoothDeviceModel
+import cd.zgeniuscoders.genesis.remote_controle.ui.framework.extensions.toByteArray
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -39,10 +39,9 @@ import java.io.IOException
 import java.util.UUID
 
 @SuppressLint("MissingPermission")
-class RemoteControlServiceImpl(
-    private val bluetoothController: BluetoothController,
+class BluetoothRemoteControlServiceImpl(
     private val context: Context
-): RemoteControlService {
+) : RemoteControlService {
 
     private val bluetoothManager by lazy {
         context.getSystemService(BluetoothManager::class.java)
@@ -103,15 +102,19 @@ class RemoteControlServiceImpl(
         )
     }
 
-    override suspend fun powerOn(){
-        bluetoothController.trySendMessage("on")
+    override suspend fun powerOn() {
+        trySendMessage("ON")
     }
 
-    override suspend fun buzzer(){
-        bluetoothController.trySendMessage("")
+    override suspend fun powerOff() {
+        trySendMessage("OFF")
     }
 
-    override suspend fun startDiscovery(){
+    override suspend fun buzzer() {
+        trySendMessage("tone_on")
+    }
+
+    override fun startDiscovery() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !hasPermission(Manifest.permission.BLUETOOTH_SCAN)) {
             return
         }
@@ -127,7 +130,7 @@ class RemoteControlServiceImpl(
 
     }
 
-    override suspend fun stopDiscovery(){
+    override fun stopDiscovery() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !hasPermission(Manifest.permission.BLUETOOTH_SCAN)) {
             return
         }
@@ -135,8 +138,7 @@ class RemoteControlServiceImpl(
         bluetoothAdapter?.cancelDiscovery()
     }
 
-    override suspend fun connectToDevice(device: BluetoothDevice): Flow<ConnectionResult>
-    {
+    override fun connectToDevice(device: BluetoothDevice): Flow<ConnectionResult> {
         return flow {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !hasPermission(Manifest.permission.BLUETOOTH_CONNECT)) {
                 throw SecurityException("No BLUETOOTH_CONNECT permission")
@@ -174,8 +176,77 @@ class RemoteControlServiceImpl(
         }.flowOn(Dispatchers.IO)
     }
 
-    override suspend fun closeConnection() {
-        bluetoothController.closeConnection()
+    override fun closeConnection() {
+        currentClientSocket?.close()
+        currentClientSocket = null
+    }
+
+    override suspend fun getTemperature(): String {
+
+        val regex = """([-+]?\d+\.\d{2})\s?°C""".toRegex()
+        var temperature = "0"
+        var messages: List<BluetoothMessage> = emptyList()
+
+        val bluetoothMessage = trySendMessage("message")
+
+        if (bluetoothMessage != null) {
+            messages = messages + bluetoothMessage
+        }
+
+        messages.forEach { message ->
+
+            val matchResult = regex.find(message.message)
+            if (matchResult != null) {
+                temperature = matchResult.groups[1]?.value.toString()
+            }
+
+        }
+
+        return temperature
+    }
+
+    override fun release() {
+        context.unregisterReceiver(foundDeviceReceiver)
+        context.unregisterReceiver(bluetoothStateReceiver)
+        closeConnection()
+    }
+
+    private fun updatePairedDevices() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !hasPermission(Manifest.permission.BLUETOOTH_CONNECT)) {
+            return
+        }
+
+        bluetoothAdapter
+            ?.bondedDevices
+            ?.map { it.toBluetoothDeviceModel() }
+            ?.also { devices ->
+                _pairedDevices.update { devices }
+            }
+    }
+
+    private suspend fun trySendMessage(message: String): BluetoothMessage? {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !hasPermission(Manifest.permission.BLUETOOTH_CONNECT)) {
+            return null
+        }
+
+        if (dataTransferService == null) {
+            return null
+        }
+
+        val bluetoothMessage = BluetoothMessage(message = message)
+
+        dataTransferService?.sendMessage(bluetoothMessage.toByteArray())
+
+        return bluetoothMessage
+    }
+
+    private fun hasPermission(permission: String): Boolean {
+        return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
+    }
+
+    companion object {
+        const val SERVICE_UUID = "00001101-0000-1000-8000-00805F9B34FB"
     }
 
 }

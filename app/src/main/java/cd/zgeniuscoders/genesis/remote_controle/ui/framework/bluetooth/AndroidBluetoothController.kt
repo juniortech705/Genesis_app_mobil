@@ -11,7 +11,6 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
-import cd.zgeniuscoders.genesis.common.utility.Constants
 import cd.zgeniuscoders.genesis.remote_controle.domain.models.BluetoothDeviceModel
 import cd.zgeniuscoders.genesis.remote_controle.domain.models.BluetoothMessage
 import cd.zgeniuscoders.genesis.remote_controle.domain.services.BluetoothController
