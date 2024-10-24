@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cd.zgeniuscoders.genesis.common.ui.views.components.DefaultButton
+import cd.zgeniuscoders.genesis.common.ui.views.main.ShareEvent
 import cd.zgeniuscoders.genesis.remote_controle.ui.view.home.HomeEvent
 import cd.zgeniuscoders.genesis.remote_controle.ui.view.home.HomeState
 
@@ -20,7 +21,7 @@ import cd.zgeniuscoders.genesis.remote_controle.ui.view.home.HomeState
 fun PowerOnBottomSheet(
     state: HomeState,
     onEvent: (event: HomeEvent) -> Unit,
-    onMessage: (String) -> Unit
+    onShareEvent: (event: ShareEvent) -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState()
 
@@ -43,10 +44,10 @@ fun PowerOnBottomSheet(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
                         onEvent(HomeEvent.OnRunDevice)
-                        if(state.isDevicePower){
-                            onMessage("OFF")
-                        }else{
-                            onMessage("ON")
+                        if (state.isDevicePower) {
+                            onShareEvent(ShareEvent.PowerOff)
+                        } else {
+                            onShareEvent(ShareEvent.PowerOn)
                         }
                     }
                 )

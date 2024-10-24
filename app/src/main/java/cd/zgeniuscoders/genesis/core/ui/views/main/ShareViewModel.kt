@@ -1,6 +1,5 @@
 package cd.zgeniuscoders.genesis.common.ui.views.main
 
-
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +9,7 @@ import cd.zgeniuscoders.genesis.common.utility.Resource
 import cd.zgeniuscoders.genesis.remote_controle.domain.models.BluetoothDeviceModel
 import cd.zgeniuscoders.genesis.remote_controle.domain.services.BluetoothController
 import cd.zgeniuscoders.genesis.remote_controle.domain.services.ConnectionResult
+import cd.zgeniuscoders.genesis.remote_controle.domain.use_case.RemoteControleInteractor
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,15 +23,15 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ShareViewModel(
-    private val bluetoothController: BluetoothController,
-    val authenticationInteractor: UserInteractor,
-    val sessionService: SessionService
+    private val remoteControleInteractor: RemoteControleInteractor,
+    private val authenticationInteractor: UserInteractor,
+    private val sessionService: SessionService
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ShareState())
     val state = combine(
-        bluetoothController.scannedDevices,
-        bluetoothController.pairedDevices,
+        remoteControleInteractor.scannedDevices.run(),
+        remoteControleInteractor.pairedDevices.run(),
         _state
     ) { scannedDevices, pairedDevices, state ->
         state.copy(
@@ -44,17 +44,20 @@ class ShareViewModel(
     fun onTriggerEvent(event: ShareEvent) {
         when (event) {
             ShareEvent.OnLogout -> logout()
+            ShareEvent.Buzzer -> buzzer()
+            ShareEvent.PowerOff -> powerOn()
+            ShareEvent.PowerOn -> powerOff()
         }
     }
 
     private var deviceConnectionJob: Job? = null
 
     init {
-        bluetoothController.isConnected.onEach { isConnected ->
+        remoteControleInteractor.isConnected.run().onEach { isConnected ->
             _state.update { it.copy(isConnected = isConnected) }
         }.launchIn(viewModelScope)
 
-        bluetoothController.errors.onEach { error ->
+        remoteControleInteractor.errors.run().onEach { error ->
             _state.update {
                 it.copy(
                     errorMessage = error
@@ -63,16 +66,18 @@ class ShareViewModel(
         }.launchIn(viewModelScope)
     }
 
+
     fun connectToDevice(device: BluetoothDeviceModel) {
         _state.update { it.copy(isConnecting = true) }
-        deviceConnectionJob = bluetoothController
-            .connectToDevice(device)
+        deviceConnectionJob = remoteControleInteractor
+            .connectToDevice
+            .run(device)
             .listen()
     }
 
     fun disconnectFromDevice() {
         deviceConnectionJob?.cancel()
-        bluetoothController.closeConnection()
+        remoteControleInteractor.disconnectToDevice.run()
         _state.update {
             it.copy(
                 isConnecting = false,
@@ -80,33 +85,33 @@ class ShareViewModel(
             )
         }
     }
-
-    fun sendMessage(message: String) {
-        viewModelScope.launch {
-            val bluetoothMessage = bluetoothController.trySendMessage(message)
-            Log.d("SEND TONE", "sendMessage: $bluetoothMessage")
-            if (bluetoothMessage != null) {
-                _state.update {
-                    it.copy(
-                        messages = it.messages + bluetoothMessage
-                    )
-                }
-            }
-        }
-    }
+//
+//    fun sendMessage(message: String) {
+//        viewModelScope.launch {
+//            val bluetoothMessage = bluetoothController.trySendMessage(message)
+//            Log.d("SEND TONE", "sendMessage: $bluetoothMessage")
+//            if (bluetoothMessage != null) {
+//                _state.update {
+//                    it.copy(
+//                        messages = it.messages + bluetoothMessage
+//                    )
+//                }
+//            }
+//        }
+//    }
 
     fun startScan() {
         _state.update {
             it.copy(isScanning = true)
         }
-        bluetoothController.startDiscovery()
+        remoteControleInteractor.startDiscovery.run()
     }
 
     fun stopScan() {
         _state.update {
             it.copy(isScanning = false)
         }
-        bluetoothController.stopDiscovery()
+        remoteControleInteractor.stopDiscovery.run()
     }
 
     private fun Flow<ConnectionResult>.listen(): Job {
@@ -142,7 +147,7 @@ class ShareViewModel(
             }
         }
             .catch { throwable ->
-                bluetoothController.closeConnection()
+                remoteControleInteractor.disconnectToDevice.run()
                 _state.update {
                     it.copy(
                         isConnected = false,
@@ -155,11 +160,10 @@ class ShareViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        bluetoothController.release()
+        remoteControleInteractor.release.run()
     }
 
-
-    fun logout() {
+    private fun logout() {
         viewModelScope.launch {
             val res = authenticationInteractor.logoutUseCase.run()
             when (res) {
@@ -175,5 +179,21 @@ class ShareViewModel(
         }
     }
 
+    private fun powerOn() {
+        viewModelScope.launch {
+            remoteControleInteractor.powerOn.run()
+        }
+    }
 
+    private fun powerOff() {
+        viewModelScope.launch {
+            remoteControleInteractor.powerOn.run()
+        }
+    }
+
+    private fun buzzer() {
+        viewModelScope.launch {
+            remoteControleInteractor.buzzer.run()
+        }
+    }
 }

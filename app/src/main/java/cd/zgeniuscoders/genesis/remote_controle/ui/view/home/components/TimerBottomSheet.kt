@@ -20,13 +20,14 @@ import cd.zgeniuscoders.genesis.common.ui.views.components.DefaultButton
 import cd.zgeniuscoders.genesis.remote_controle.ui.view.home.HomeEvent
 import cd.zgeniuscoders.genesis.remote_controle.ui.view.home.HomeState
 import cd.zgeniuscoders.genesis.authentication.ui.views.components.TextFieldComponent
+import cd.zgeniuscoders.genesis.common.ui.views.main.ShareEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimerBottomSheet(
     state: HomeState,
     onEvent: (event: HomeEvent) -> Unit,
-    onMessage: (String) -> Unit,
+    onShareEvent: (event: ShareEvent) -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState()
 
@@ -51,7 +52,6 @@ fun TimerBottomSheet(
                         modifier = Modifier.fillMaxWidth(),
                         onClick = {
                             onEvent(HomeEvent.OnStopTimer)
-                            onMessage("S")
                         }
                     )
                 } else {

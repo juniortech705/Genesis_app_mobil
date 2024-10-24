@@ -13,7 +13,8 @@ class RemoteControleInteractor(
     val errors: RemoteControlError,
     val scannedDevices: ScannedDevices,
     val pairedDevices: PairedDevices,
-    val powerOff: PowerOff
+    val powerOff: PowerOff,
+    val release: Release
 ) {
 
     companion object {
@@ -29,7 +30,8 @@ class RemoteControleInteractor(
                 RemoteControlError(service),
                 ScannedDevices(service),
                 PairedDevices(service),
-                PowerOff(service)
+                PowerOff(service),
+                Release(service)
             )
         }
     }

@@ -22,7 +22,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import cd.zgeniuscoders.genesis.common.ui.views.main.ShareEvent
 import cd.zgeniuscoders.genesis.common.ui.views.main.ShareState
+import cd.zgeniuscoders.genesis.common.ui.views.theme.GenesisTheme
 import cd.zgeniuscoders.genesis.common.utility.Routes
 import cd.zgeniuscoders.genesis.remote_controle.ui.view.home.components.GenesisHomeCard
 import cd.zgeniuscoders.genesis.remote_controle.ui.view.home.components.HomeCardBanner
@@ -37,7 +39,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeView(
     navHostController: NavHostController,
-    onMessage: (String) -> Unit = {},
+    onShareEvent: (event: ShareEvent) -> Unit,
     shareState: ShareState,
     snackbarHostState: SnackbarHostState,
 ) {
@@ -48,7 +50,7 @@ fun HomeView(
 
     LaunchedEffect(state.timerStatus) {
         if (state.timerStatus == TimerStatus.Stop) {
-            onMessage("tone")
+            onShareEvent(ShareEvent.Buzzer)
         }
     }
 
@@ -56,7 +58,7 @@ fun HomeView(
         navHostController = navHostController,
         state,
         onEvent,
-        onMessage,
+        onShareEvent,
         shareState,
         snackbarHostState
     )
@@ -68,7 +70,7 @@ fun HomeBody(
     navHostController: NavHostController,
     state: HomeState,
     onEvent: (event: HomeEvent) -> Unit = {},
-    onMessage: (String) -> Unit = {},
+    onShareEvent: (event: ShareEvent) -> Unit = {},
     shareState: ShareState,
     snackbarHostState: SnackbarHostState,
 ) {
@@ -157,19 +159,19 @@ fun HomeBody(
     TimerBottomSheet(
         state,
         onEvent,
-        onMessage
+        onShareEvent
     )
 
     PowerOnBottomSheet(
         state,
         onEvent,
-        onMessage
+        onShareEvent
     )
 
     PowerVolumeBottomSheet(
         state,
         onEvent,
-        onMessage
+        onShareEvent
     )
 }
 
@@ -185,10 +187,12 @@ data class HomeItem(
 @Preview(showBackground = true)
 @Composable
 fun HomePreview() {
-    HomeBody(
-        rememberNavController(),
-        HomeState(),
-        shareState = ShareState(),
-        snackbarHostState = SnackbarHostState()
-    )
+    GenesisTheme {
+        HomeBody(
+            rememberNavController(),
+            HomeState(),
+            shareState = ShareState(),
+            snackbarHostState = SnackbarHostState()
+        )
+    }
 }

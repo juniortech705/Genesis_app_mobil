@@ -2,8 +2,7 @@ package cd.zgeniuscoders.genesis.di
 
 import cd.zgeniuscoders.genesis.authentication.domain.usecases.UserInteractor
 import cd.zgeniuscoders.genesis.authentication.ui.framework.SessionService
-import cd.zgeniuscoders.genesis.core.ui.views.main.ShareViewModel
-import cd.zgeniuscoders.genesis.remote_controle.domain.services.BluetoothController
+import cd.zgeniuscoders.genesis.common.ui.views.main.ShareViewModel
 import cd.zgeniuscoders.genesis.remote_controle.domain.services.RemoteControlService
 import cd.zgeniuscoders.genesis.remote_controle.domain.use_case.RemoteControleInteractor
 import cd.zgeniuscoders.genesis.remote_controle.ui.framework.BluetoothRemoteControlServiceImpl
@@ -29,9 +28,9 @@ val remoteModule = module {
 
     single<ShareViewModel> {
         ShareViewModel(
+            get<RemoteControleInteractor>(),
             get<UserInteractor>(),
             get<SessionService>(),
-            get<RemoteControleInteractor>()
         )
     }
 
@@ -40,7 +39,7 @@ val remoteModule = module {
         val appContext = androidContext()
         val notification = NotificationService(appContext)
 
-        HomeViewModel(appContext, notification,get<RemoteControleInteractor>())
+        HomeViewModel(appContext, notification)
     }
 
     viewModel<PairedDeviceViewModel> {

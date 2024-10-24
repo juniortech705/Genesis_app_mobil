@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import cd.zgeniuscoders.genesis.common.ui.views.main.ShareEvent
 import cd.zgeniuscoders.genesis.remote_controle.ui.view.home.HomeEvent
 import cd.zgeniuscoders.genesis.remote_controle.ui.view.home.HomeState
 import kotlin.math.roundToInt
@@ -31,7 +32,7 @@ import kotlin.math.roundToInt
 fun PowerVolumeBottomSheet(
     state: HomeState,
     onEvent: (event: HomeEvent) -> Unit,
-    onMessage: (String) -> Unit
+    onShareEvent: (event: ShareEvent) -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState()
 
@@ -62,7 +63,7 @@ fun PowerVolumeBottomSheet(
                         modifier = Modifier.size(100.dp)
                     ) {
                         volume = it
-                        onMessage((barCount * volume).roundToInt().toString())
+//                        onMessage((barCount * volume).roundToInt().toString())
                     }
                     Spacer(modifier = Modifier.width(20.dp))
                     VolumeBar(
