@@ -216,7 +216,7 @@ fun RoutePage(
                 composable(route = Routes.connectDevice.route) {
                     AddDeviceView(
                         navHostController,
-                        onDeviceClick = shareViewModel::connectToDevice,
+                        onShareEvent = shareViewModel::onTriggerEvent,
                         startScan = shareViewModel::startScan,
                         state = state,
 
@@ -227,7 +227,7 @@ fun RoutePage(
                     PairedDeviceView(
                         navHostController,
                         state.pairedDevices,
-                        shareViewModel::connectToDevice,
+                        shareViewModel::onTriggerEvent,
                         state
                     )
                 }

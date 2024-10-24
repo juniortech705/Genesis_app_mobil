@@ -47,6 +47,7 @@ class ShareViewModel(
             ShareEvent.Buzzer -> buzzer()
             ShareEvent.PowerOff -> powerOn()
             ShareEvent.PowerOn -> powerOff()
+            is ShareEvent.ConnectDevice -> connectToDevice(event.device)
         }
     }
 

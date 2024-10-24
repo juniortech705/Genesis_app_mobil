@@ -7,11 +7,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BluetoothConnected
 import androidx.compose.material.icons.filled.Kitchen
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -23,7 +26,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import cd.zgeniuscoders.genesis.common.ui.views.main.ShareEvent
 import cd.zgeniuscoders.genesis.common.ui.views.main.ShareState
+import cd.zgeniuscoders.genesis.core.ui.views.components.DeviceLists
 import cd.zgeniuscoders.genesis.remote_controle.domain.models.BluetoothDevice
 import cd.zgeniuscoders.genesis.remote_controle.ui.view.addDevice.components.AnimateSearch
 import cd.zgeniuscoders.genesis.remote_controle.ui.view.addDevice.components.InfinitelyFlowingCircles
@@ -34,7 +39,7 @@ fun AddDeviceView(
     navHostController: NavHostController,
     state: ShareState,
     startScan: () -> Unit,
-    onDeviceClick: (BluetoothDevice) -> Unit
+    onShareEvent: (event: ShareEvent) -> Unit
 ) {
 
     LaunchedEffect(true) {
@@ -43,7 +48,7 @@ fun AddDeviceView(
 
     AddDeviceBody(
         state,
-        onDeviceClick,
+        onShareEvent,
         state.isScanning
     )
 
@@ -52,7 +57,7 @@ fun AddDeviceView(
 @Composable
 fun AddDeviceBody(
     state: ShareState,
-    onDeviceClick: (BluetoothDevice) -> Unit = {},
+    onShareEvent: (event: ShareEvent) -> Unit = {},
     scanning: Boolean = true
 ) {
     Column(
@@ -85,48 +90,13 @@ fun AddDeviceBody(
 
         } else {
 
-            when {
-                state.isConnecting -> {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
-
-                state.isConnected -> {
-//                    navHostController.navigate(Routes.controlDevice.route)
-                }
-
-                else -> {
-                    LazyColumn {
-                        items(state.scannedDevices) {
-                            val device = it
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .clickable {
-                                        onDeviceClick(device)
-                                    },
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(10.dp)
-                            ) {
-                                Icon(Icons.Filled.Kitchen, contentDescription = null)
-                                Column {
-                                    Text(device.name)
-                                    Text(
-                                        device.address,
-                                        color = Color.Gray
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
+            DeviceLists(
+                isConnecting = state.isConnecting,
+                isConnected = state.isConnected,
+                devices = state.scannedDevices
+            ) {
+                onShareEvent(it)
             }
-
         }
     }
 

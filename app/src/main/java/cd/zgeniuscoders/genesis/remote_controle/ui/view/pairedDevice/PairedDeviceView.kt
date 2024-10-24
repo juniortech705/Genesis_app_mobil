@@ -25,26 +25,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import cd.zgeniuscoders.genesis.common.ui.views.main.ShareEvent
 import cd.zgeniuscoders.genesis.common.ui.views.main.ShareState
+import cd.zgeniuscoders.genesis.core.ui.views.components.DeviceLists
 import cd.zgeniuscoders.genesis.remote_controle.domain.models.BluetoothDevice
 import cd.zgeniuscoders.genesis.remote_controle.domain.models.BluetoothDeviceModel
-
 
 @Composable
 fun PairedDeviceView(
     navHostController: NavHostController,
     pairedDevices: List<BluetoothDevice>,
-    onDeviceClick: (BluetoothDeviceModel) -> Unit,
+    onShareEvent: (event: ShareEvent) -> Unit,
     state: ShareState
 ) {
-    AddDeviceBody(navHostController, pairedDevices, onDeviceClick, state)
+    AddDeviceBody(navHostController, pairedDevices, onShareEvent, state)
 }
 
 @Composable
 fun AddDeviceBody(
     navHostController: NavHostController,
     pairedDevices: List<BluetoothDevice>,
-    onDeviceClick: (BluetoothDeviceModel) -> Unit = {},
+    onShareEvent: (event: ShareEvent) -> Unit = {},
     state: ShareState = ShareState(),
 
     ) {
@@ -72,48 +73,15 @@ fun AddDeviceBody(
                 )
             }
         } else {
-            when {
-                state.isConnecting -> {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
 
-                state.isConnected -> {
-//                    navHostController.navigate(Routes.controlDevice.route)
-                }
-
-                else -> {
-                    LazyColumn {
-                        items(pairedDevices.size) {
-                            val device = pairedDevices[it]
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(bottom = 10.dp)
-                                    .clickable {
-                                        onDeviceClick(device)
-                                    },
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(10.dp)
-                            ) {
-                                Icon(Icons.Filled.Kitchen, contentDescription = null)
-                                Column {
-                                    Text(device.name)
-                                    Text(
-                                        device.address,
-                                        color = Color.Gray
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
+            DeviceLists(
+                isConnecting = state.isConnecting,
+                isConnected = state.isConnected,
+                devices = state.pairedDevices
+            ) {
+                onShareEvent(it)
             }
+
         }
     }
 
