@@ -42,7 +42,7 @@ interface AuthenticationApi {
         @Body requestBody: ForgotPasswordRequest
     ): ForgotPasswordDto
 
-    @POST("/api/password/verify-opt")
+    @POST("/api/password/verify-otp")
     suspend fun optVerify(
         @Header("Content-Type") contentType: String,
         @Body requestBody: OptVerificationRequest

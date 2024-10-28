@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -19,22 +20,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 
 @Composable
 fun OptTextField(
-
+    value: String,
+    onChange: (value: String) -> Unit
 ) {
-    var optText by remember {
-        mutableStateOf("")
-    }
 
-    BasicTextField(value = optText,
+    BasicTextField(value = value,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Number
+        ),
         onValueChange = {
-            if(it.length <= 6){
-                optText = it
+            if (it.length <= 6) {
+                onChange(it)
             }
         }) {
         Row(
@@ -42,8 +45,8 @@ fun OptTextField(
         ) {
             repeat(6) { index ->
                 val number = when {
-                    index >= optText.length -> ""
-                    else -> optText[index]
+                    index >= value.length -> ""
+                    else -> value[index]
                 }
 
                 Column(
@@ -57,7 +60,7 @@ fun OptTextField(
 
                     Box(
                         modifier = Modifier
-                            .width(60.dp)
+                            .width(40.dp)
                             .height(2.dp)
                             .background(MaterialTheme.colorScheme.primary)
                     )
@@ -70,8 +73,10 @@ fun OptTextField(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 @Preview
-fun OptTextFieldPreview(){
+fun OptTextFieldPreview() {
     Scaffold {
-        OptTextField()
+        OptTextField("") {
+
+        }
     }
 }

@@ -27,17 +27,18 @@ fun TextFieldComponent(
     label: String,
     shape: Shape = TextFieldDefaults.shape,
     keyboardType: KeyboardType,
+    maxLines: Int = 1,
     content: @Composable () -> Unit,
     isPasswordField: Boolean = false,
     onValueChange: (value: String) -> Unit,
 ) {
-    val isDarkMode = isSystemInDarkTheme()
 
     TextField(
+        maxLines = maxLines,
         modifier = modifier.fillMaxWidth(),
         value = textValue,
         onValueChange = { onValueChange(it) },
-        visualTransformation = if(isPasswordField)  PasswordVisualTransformation() else VisualTransformation.None,
+        visualTransformation = if (isPasswordField) PasswordVisualTransformation() else VisualTransformation.None,
         colors = TextFieldDefaults.colors(
             focusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
@@ -57,7 +58,7 @@ fun TextFieldComponent(
 @Preview
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun TextFieldComponentPreview(){
+fun TextFieldComponentPreview() {
     Scaffold {
         TextFieldComponent(
             textValue = "", label = "Email",

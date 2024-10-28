@@ -14,10 +14,13 @@ data class OptVerificationDto(
     @Json(name = "otp_token")
     val otpToken: String? = null,
 
-    )
+    @Json(name = "error")
+    val error: String? = null
+
+)
 
 @JsonClass(generateAdapter = true)
 data class OptVerificationError(
     @Json(name = "otp_code")
-    val otpCode: String
+    val otpCode: List<String>
 )

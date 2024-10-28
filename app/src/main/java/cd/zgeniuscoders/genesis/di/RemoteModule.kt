@@ -2,6 +2,7 @@ package cd.zgeniuscoders.genesis.di
 
 import cd.zgeniuscoders.genesis.authentication.domain.usecases.UserInteractor
 import cd.zgeniuscoders.genesis.authentication.ui.framework.SessionService
+import cd.zgeniuscoders.genesis.authentication.ui.views.opt_verification.OptVerificationViewModel
 import cd.zgeniuscoders.genesis.common.ui.views.main.ShareViewModel
 import cd.zgeniuscoders.genesis.remote_controle.domain.services.RemoteControlService
 import cd.zgeniuscoders.genesis.remote_controle.domain.use_case.RemoteControleInteractor
@@ -46,6 +47,10 @@ val remoteModule = module {
 
     viewModel<PairedDeviceViewModel> {
         PairedDeviceViewModel()
+    }
+
+    viewModel<OptVerificationViewModel> {
+        OptVerificationViewModel(get(), get())
     }
 
 

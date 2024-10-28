@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -26,9 +27,32 @@ import cd.zgeniuscoders.genesis.common.utility.Routes
 import cd.zgeniuscoders.genesis.common.ui.views.components.DefaultButton
 import cd.zgeniuscoders.genesis.authentication.ui.views.components.OptTextField
 import cd.zgeniuscoders.genesis.common.ui.views.theme.GenesisTheme
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun OptVerificationView(navHostController: NavHostController) {
+    val vm = koinViewModel<OptVerificationViewModel>()
+    val state = vm.state
+    val onEvent = vm::onTriggerEvent
+
+    LaunchedEffect(state.isLogged) {
+        if (state.isLogged) {
+            navHostController.navigate(Routes.reset_password.route) {
+                popUpTo(navHostController.graph.id) {
+                    inclusive = true
+                }
+            }
+        }
+    }
+
+    OptVerificationBody(state, onEvent)
+}
+
+@Composable
+fun OptVerificationBody(
+    state: OptVerificationState,
+    onEvent: (event: OptVerificationEvent) -> Unit = {}
+) {
     Scaffold { innerP ->
         Column(
             modifier = Modifier
@@ -51,21 +75,6 @@ fun OptVerificationView(navHostController: NavHostController) {
                 "Entrez le code de vérification",
                 style = MaterialTheme.typography.headlineSmall
             )
-            Spacer(modifier = Modifier.height(40.dp))
-
-            OptTextField()
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            DefaultButton(
-                text = "Vérifier",
-                onClick = {
-                    navHostController.navigate(Routes.bottomNavBar.route)
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-            )
 
             Column(
                 modifier = Modifier
@@ -85,6 +94,33 @@ fun OptVerificationView(navHostController: NavHostController) {
                     textAlign = TextAlign.Center
                 )
             }
+
+            if (state.error.isNotBlank()) {
+                Text(
+                    state.error,
+                    color = MaterialTheme.colorScheme.error,
+                    textAlign = TextAlign.Center
+                )
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            OptTextField(state.code) {
+                onEvent(OptVerificationEvent.OnCodeChange(it))
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            DefaultButton(
+                text = "Vérifier",
+                onClick = {
+                    onEvent(OptVerificationEvent.HandlerSendCod)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+            )
+
         }
     }
 }
@@ -93,6 +129,6 @@ fun OptVerificationView(navHostController: NavHostController) {
 @Preview
 fun OptVerificationPreview() {
     GenesisTheme {
-        OptVerificationView(navHostController = rememberNavController())
+        OptVerificationBody(OptVerificationState())
     }
 }

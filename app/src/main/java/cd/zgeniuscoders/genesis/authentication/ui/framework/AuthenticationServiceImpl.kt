@@ -135,7 +135,7 @@ class AuthenticationServiceImpl(private val api: AuthenticationApi, private val 
             val error = getHttpError(errorJson!!, ForgotPasswordDto::class.java)
 
             Resource.Error(data = error, message = "failed")
-        }catch (e: EOFException){
+        } catch (e: EOFException) {
             e.printStackTrace()
             Resource.Error(message = "An excepted error occurred")
         }
@@ -157,40 +157,19 @@ class AuthenticationServiceImpl(private val api: AuthenticationApi, private val 
     }
 
     override suspend fun verifyOpt(request: OptVerificationRequest): Resource<OptVerificationDto> {
-        TODO("Not yet implemented")
+        return try {
+            val res = api.optVerify("application/json", request)
+            Resource.Success(data = res)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Resource.Error(message = "An excepted error occurred")
+        } catch (e: HttpException) {
+            val errorJson = e.response()?.errorBody()?.string()
+
+            val error = getHttpError(errorJson!!, OptVerificationDto::class.java)
+
+            Resource.Error(data = error, message = "http error")
+        }
     }
-
-
-    private fun getAuthErrorHttp(errorJson: String): RegisterDtoData {
-
-        val adapter: JsonAdapter<RegisterDtoData> =
-            Moshi.Builder()
-                .add(KotlinJsonAdapterFactory())
-                .build()
-                .adapter(RegisterDtoData::class.java)
-                .lenient()
-
-        return if (!errorJson.contains("{"))
-            RegisterDtoData(message = errorJson)
-        else
-            adapter.fromJson(errorJson)!!
-    }
-
-
-    private fun getLoginErrorHttp(errorJson: String): LoginDto {
-
-        val adapter: JsonAdapter<LoginDto> =
-            Moshi.Builder()
-                .add(KotlinJsonAdapterFactory())
-                .build()
-                .adapter(LoginDto::class.java)
-                .lenient()
-
-        return if (!errorJson.contains("{"))
-            LoginDto(message = errorJson)
-        else
-            adapter.fromJson(errorJson)!!
-    }
-
 
 }

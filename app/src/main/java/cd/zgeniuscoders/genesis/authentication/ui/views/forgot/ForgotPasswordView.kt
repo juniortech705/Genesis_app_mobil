@@ -48,7 +48,7 @@ fun ForgotPasswordView(navHostController: NavHostController) {
 
         LaunchedEffect(state.isLogged) {
             if (state.isLogged) {
-                navHostController.navigate(Routes.reset_password.route)
+                navHostController.navigate(Routes.opt_verification.route)
             }
         }
 
