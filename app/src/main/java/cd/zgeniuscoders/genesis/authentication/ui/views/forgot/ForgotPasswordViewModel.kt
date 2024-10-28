@@ -1,5 +1,6 @@
 package cd.zgeniuscoders.genesis.authentication.ui.views.forgot
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import cd.zgeniuscoders.genesis.authentication.domain.models.Request.ForgotPasswordRequest
 import cd.zgeniuscoders.genesis.authentication.domain.usecases.UserInteractor
 import cd.zgeniuscoders.genesis.common.utility.Resource
+import cd.zgeniuscoders.speedshop.authentication.domain.mappers.getEmailError
 import kotlinx.coroutines.launch
 
 class ForgotPasswordViewModel(
@@ -17,6 +19,7 @@ class ForgotPasswordViewModel(
     fun onTriggerEvent(event: ForgotPasswordEvent) {
         when (event) {
             is ForgotPasswordEvent.EmailChange -> state = state.copy(email = event.value)
+            ForgotPasswordEvent.handlerSendEmail -> sendEmail()
         }
     }
 
@@ -45,7 +48,7 @@ class ForgotPasswordViewModel(
                     userInteractor.forgotPasswordUseCase.run(ForgotPasswordRequest(state.email))
                 state = when (res) {
                     is Resource.Error -> {
-                        state.copy(isLoading = false)
+                        state.copy(isLoading = false, error = res.data!!.getEmailError())
                     }
 
                     is Resource.Success -> {

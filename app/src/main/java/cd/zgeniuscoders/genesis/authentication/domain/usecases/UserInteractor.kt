@@ -7,7 +7,8 @@ class UserInteractor private constructor(
     val registerUseCase: RegisterUseCase,
     val resetPasswordUseCase: ResetPasswordUseCase,
     val forgotPasswordUseCase: ForgotPasswordUseCase,
-    val logoutUseCase: LogoutUseCase
+    val logoutUseCase: LogoutUseCase,
+    val verifyOptUsecase: VerifyOptUsecase
 ) {
     companion object {
         fun build(service: AuthenticationService): UserInteractor {
@@ -16,7 +17,8 @@ class UserInteractor private constructor(
                 RegisterUseCase(service),
                 ResetPasswordUseCase(service),
                 ForgotPasswordUseCase(service),
-                LogoutUseCase(service)
+                LogoutUseCase(service),
+                VerifyOptUsecase(service)
             )
         }
     }

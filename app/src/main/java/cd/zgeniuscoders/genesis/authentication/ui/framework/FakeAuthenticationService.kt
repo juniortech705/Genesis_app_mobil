@@ -2,13 +2,17 @@ package cd.zgeniuscoders.genesis.authentication.ui.framework
 
 import cd.zgeniuscoders.genesis.authentication.domain.models.Request.ForgotPasswordRequest
 import cd.zgeniuscoders.genesis.authentication.domain.models.Request.LoginRequest
+import cd.zgeniuscoders.genesis.authentication.domain.models.Request.OptVerificationRequest
 import cd.zgeniuscoders.genesis.authentication.domain.models.Request.RegisterRequest
 import cd.zgeniuscoders.genesis.authentication.domain.models.Request.ResetPasswordRequest
 import cd.zgeniuscoders.genesis.authentication.domain.models.dto.AuthenticationDto
+import cd.zgeniuscoders.genesis.authentication.domain.models.dto.ForgotPasswordDto
 import cd.zgeniuscoders.genesis.authentication.domain.models.dto.LoginDataDto
 import cd.zgeniuscoders.genesis.authentication.domain.models.dto.LoginDto
 import cd.zgeniuscoders.genesis.authentication.domain.models.dto.LogoutDto
+import cd.zgeniuscoders.genesis.authentication.domain.models.dto.OptVerificationDto
 import cd.zgeniuscoders.genesis.authentication.domain.models.dto.RegisterDtoData
+import cd.zgeniuscoders.genesis.authentication.domain.models.dto.ResetPasswordDto
 import cd.zgeniuscoders.genesis.authentication.domain.services.AuthenticationService
 import cd.zgeniuscoders.genesis.common.utility.Resource
 
@@ -31,13 +35,17 @@ class FakeAuthenticationService : AuthenticationService {
         )
     }
 
-    override suspend fun forgotPassword(request: ForgotPasswordRequest): Resource<AuthenticationDto> {
+    override suspend fun forgotPassword(request: ForgotPasswordRequest): Resource<ForgotPasswordDto> {
         return Resource.Success(
-            data = AuthenticationDto(data = RegisterDtoData(token = "0000000"))
+            data = ForgotPasswordDto(message = "okey cool")
         )
     }
 
-    override suspend fun resetPassword(request: ResetPasswordRequest): Resource<AuthenticationDto> {
+    override suspend fun resetPassword(request: ResetPasswordRequest): Resource<ResetPasswordDto> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun verifyOpt(request: OptVerificationRequest): Resource<OptVerificationDto> {
         TODO("Not yet implemented")
     }
 }

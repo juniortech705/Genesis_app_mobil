@@ -12,6 +12,7 @@ class LoginDto(
     val data: LoginDataDto? = null
 )
 
+@JsonClass(generateAdapter = true)
 data class LoginDataDto(
     @Json(name = "token")
     val token: String

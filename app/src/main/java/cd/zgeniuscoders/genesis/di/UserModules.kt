@@ -30,7 +30,7 @@ val userModule = module {
         val moshi = get<Moshi>()
 
         Retrofit.Builder()
-            .baseUrl("http://10.224.196.183:8000")
+            .baseUrl("http://10.224.196.155:8000")
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
             .create(AuthenticationApi::class.java)
@@ -41,8 +41,8 @@ val userModule = module {
         val api = get<AuthenticationApi>()
         val context = androidContext()
 
-//        AuthenticationServiceImpl(api, context)
-        FakeAuthenticationService()
+        AuthenticationServiceImpl(api, context)
+//        FakeAuthenticationService()
     }
 
     single<UserInteractor> {

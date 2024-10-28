@@ -34,6 +34,7 @@ import cd.zgeniuscoders.genesis.R
 import cd.zgeniuscoders.genesis.common.utility.Routes
 import cd.zgeniuscoders.genesis.authentication.ui.views.components.AuthHeader
 import cd.zgeniuscoders.genesis.authentication.ui.views.components.TextFieldComponent
+import cd.zgeniuscoders.genesis.common.ui.views.theme.GenesisTheme
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
@@ -45,18 +46,13 @@ fun ForgotPasswordView(navHostController: NavHostController) {
         val state = vm.state
         val onEvent = vm::onTriggerEvent
 
-        val coroutineScope = rememberCoroutineScope()
-
-        val submitForm: () -> Unit = {
-            coroutineScope.launch {
-                vm.sendEmail()
-                if (state.isLogged) {
-                    navHostController.navigate(Routes.reset_password.route)
-                }
+        LaunchedEffect(state.isLogged) {
+            if (state.isLogged) {
+                navHostController.navigate(Routes.reset_password.route)
             }
         }
 
-        ForgotPasswordBody(state, submitForm, onEvent)
+        ForgotPasswordBody(state, onEvent)
     }
 }
 
@@ -64,10 +60,10 @@ fun ForgotPasswordView(navHostController: NavHostController) {
 @Composable
 fun ForgotPasswordBody(
     state: ForgotPasswordState,
-    submitForm: () -> Unit = {},
     onEvent: (event: ForgotPasswordEvent) -> Unit = {}
 ) {
 
+    val scope = rememberCoroutineScope()
 
     Scaffold {
 
@@ -84,12 +80,14 @@ fun ForgotPasswordBody(
                 subtitle = "Entrez l'adresse e-mail associée à votre compte. Nous vous enverrons un lien pour réinitialiser votre mot de passe."
             )
 
-            if (state.hasFormError) {
+
+            if (state.error.isNotBlank()) {
                 Text(
                     state.error,
                     color = MaterialTheme.colorScheme.error,
                     textAlign = TextAlign.Center
                 )
+                Spacer(modifier = Modifier.height(10.dp))
             }
 
             TextFieldComponent(
@@ -104,11 +102,11 @@ fun ForgotPasswordBody(
                 },
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
             Button(
                 onClick = {
-                    submitForm()
+                    onEvent(ForgotPasswordEvent.handlerSendEmail)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -134,9 +132,11 @@ fun ForgotPasswordBody(
 @Preview
 @Composable
 fun ForgotPasswordPreview() {
-    Scaffold {
-        ForgotPasswordBody(
-            state = ForgotPasswordState()
-        )
+    GenesisTheme {
+        Scaffold {
+            ForgotPasswordBody(
+                state = ForgotPasswordState()
+            )
+        }
     }
 }

@@ -24,21 +24,23 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun OptTextField() {
+fun OptTextField(
+
+) {
     var optText by remember {
         mutableStateOf("")
     }
 
     BasicTextField(value = optText,
         onValueChange = {
-            if(it.length <= 4){
+            if(it.length <= 6){
                 optText = it
             }
         }) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            repeat(4) { index ->
+            repeat(6) { index ->
                 val number = when {
                     index >= optText.length -> ""
                     else -> optText[index]

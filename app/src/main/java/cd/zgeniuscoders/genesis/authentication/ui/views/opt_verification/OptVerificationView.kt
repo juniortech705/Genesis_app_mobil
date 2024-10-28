@@ -25,6 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import cd.zgeniuscoders.genesis.common.utility.Routes
 import cd.zgeniuscoders.genesis.common.ui.views.components.DefaultButton
 import cd.zgeniuscoders.genesis.authentication.ui.views.components.OptTextField
+import cd.zgeniuscoders.genesis.common.ui.views.theme.GenesisTheme
 
 @Composable
 fun OptVerificationView(navHostController: NavHostController) {
@@ -91,5 +92,7 @@ fun OptVerificationView(navHostController: NavHostController) {
 @Composable
 @Preview
 fun OptVerificationPreview() {
-    OptVerificationView(navHostController = rememberNavController())
+    GenesisTheme {
+        OptVerificationView(navHostController = rememberNavController())
+    }
 }

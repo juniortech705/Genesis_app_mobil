@@ -144,7 +144,7 @@ fun RegisterBody(
                 isPasswordField = true
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
             Button(
                 onClick = {
