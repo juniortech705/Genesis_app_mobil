@@ -22,6 +22,8 @@ interface RemoteControlService {
 
     suspend fun powerDown()
 
+    suspend fun checkAuthorization()
+
     fun startDiscovery()
 
     fun stopDiscovery()

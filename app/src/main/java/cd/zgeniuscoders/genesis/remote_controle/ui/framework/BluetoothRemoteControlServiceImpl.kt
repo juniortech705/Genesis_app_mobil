@@ -165,6 +165,8 @@ class BluetoothRemoteControlServiceImpl(
                     socket.connect()
                     emit(ConnectionResult.ConnectionEstablished)
 
+                    checkAuthorization()
+
                     BluetoothDataTransferService(socket).also {
                         dataTransferService = it
                         emitAll(
@@ -187,6 +189,10 @@ class BluetoothRemoteControlServiceImpl(
     override fun closeConnection() {
         currentClientSocket?.close()
         currentClientSocket = null
+    }
+
+    override suspend fun checkAuthorization() {
+        trySendMessage("authorization: 11230")
     }
 
     override suspend fun getTemperature(): String {

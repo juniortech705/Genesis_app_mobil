@@ -41,8 +41,8 @@ val userModule = module {
         val api = get<AuthenticationApi>()
         val context = androidContext()
 
-        AuthenticationServiceImpl(api, context)
-//        FakeAuthenticationService()
+//        AuthenticationServiceImpl(api, context)
+        FakeAuthenticationService()
     }
 
     single<UserInteractor> {

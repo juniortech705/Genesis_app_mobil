@@ -55,6 +55,10 @@ class FakeBluetoothRemoteControlService : RemoteControlService {
 
     }
 
+    override suspend fun checkAuthorization() {
+        TODO("Not yet implemented")
+    }
+
     override fun startDiscovery() {
         _scannedDevices.update { devices ->
             run {

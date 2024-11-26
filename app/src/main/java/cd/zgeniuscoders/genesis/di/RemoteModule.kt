@@ -20,8 +20,8 @@ val remoteModule = module {
 
     single<RemoteControlService> {
         val appContext = androidContext()
-//        BluetoothRemoteControlServiceImpl(appContext)
-        FakeBluetoothRemoteControlService()
+        BluetoothRemoteControlServiceImpl(appContext)
+//        FakeBluetoothRemoteControlService()
     }
 
     single<RemoteControleInteractor> {
