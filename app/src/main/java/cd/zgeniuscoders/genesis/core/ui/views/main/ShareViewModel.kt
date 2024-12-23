@@ -11,6 +11,7 @@ import cd.zgeniuscoders.genesis.remote_controle.domain.services.BluetoothControl
 import cd.zgeniuscoders.genesis.remote_controle.domain.services.ConnectionResult
 import cd.zgeniuscoders.genesis.remote_controle.domain.use_case.RemoteControleInteractor
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -45,8 +46,8 @@ class ShareViewModel(
         when (event) {
             ShareEvent.OnLogout -> logout()
             ShareEvent.Buzzer -> buzzer()
-            ShareEvent.PowerOff -> powerOn()
-            ShareEvent.PowerOn -> powerOff()
+            ShareEvent.PowerOff -> powerOff()
+            ShareEvent.PowerOn -> powerOn()
             is ShareEvent.ConnectDevice -> connectToDevice(event.device)
             ShareEvent.PowerDown -> powerDown()
             ShareEvent.PowerUp -> powerUp()
@@ -185,6 +186,8 @@ class ShareViewModel(
     private fun powerOn() {
         viewModelScope.launch {
             remoteControleInteractor.powerOn.run()
+            delay(4000)
+            remoteControleInteractor.authorisation.run()
         }
     }
 

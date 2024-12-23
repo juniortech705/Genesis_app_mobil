@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import cd.zgeniuscoders.genesis.remote_controle.domain.models.BluetoothDevice
 import cd.zgeniuscoders.genesis.remote_controle.domain.models.BluetoothDeviceModel
 import cd.zgeniuscoders.genesis.remote_controle.domain.models.BluetoothMessage
@@ -192,7 +193,7 @@ class BluetoothRemoteControlServiceImpl(
     }
 
     override suspend fun checkAuthorization() {
-        trySendMessage("authorization: 11230")
+        trySendMessage("authorization: genesis-1440")
     }
 
     override suspend fun getTemperature(): String {

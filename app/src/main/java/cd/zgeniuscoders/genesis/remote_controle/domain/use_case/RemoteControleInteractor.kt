@@ -16,7 +16,8 @@ class RemoteControleInteractor(
     val powerOff: PowerOff,
     val release: Release,
     val powerUp: PowerUp,
-    val powerDown: PowerDown
+    val powerDown: PowerDown,
+    val authorisation: Authorisation
 ) {
 
     companion object {
@@ -35,7 +36,8 @@ class RemoteControleInteractor(
                 PowerOff(service),
                 Release(service),
                 PowerUp(service),
-                PowerDown(service)
+                PowerDown(service),
+                Authorisation(service)
             )
         }
     }

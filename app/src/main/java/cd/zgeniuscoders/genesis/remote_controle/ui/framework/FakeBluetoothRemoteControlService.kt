@@ -56,7 +56,7 @@ class FakeBluetoothRemoteControlService : RemoteControlService {
     }
 
     override suspend fun checkAuthorization() {
-        TODO("Not yet implemented")
+
     }
 
     override fun startDiscovery() {

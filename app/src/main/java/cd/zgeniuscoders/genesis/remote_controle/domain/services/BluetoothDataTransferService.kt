@@ -21,6 +21,7 @@ class BluetoothDataTransferService(
                 return@flow
             }
             val buffer = ByteArray(1024)
+
             while (true) {
                 val byteCount = try {
                     socket.inputStream.read(buffer)
