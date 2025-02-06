@@ -4,8 +4,8 @@ import cd.zgeniuscoders.genesis.remote_controle.domain.services.RemoteControlSer
 
 class PowerDown(val service: RemoteControlService) {
 
-    suspend fun run() {
-        service.powerDown()
+    suspend fun run(value: String) {
+        service.powerDown(value)
     }
 
 }

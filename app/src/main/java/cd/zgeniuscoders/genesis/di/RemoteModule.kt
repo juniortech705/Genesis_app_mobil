@@ -1,19 +1,15 @@
 package cd.zgeniuscoders.genesis.di
 
-import cd.zgeniuscoders.genesis.authentication.domain.usecases.UserInteractor
-import cd.zgeniuscoders.genesis.authentication.ui.framework.SessionService
-import cd.zgeniuscoders.genesis.authentication.ui.views.opt_verification.OptVerificationViewModel
-import cd.zgeniuscoders.genesis.common.ui.views.main.ShareViewModel
+import cd.zgeniuscoders.genesis.core.presentation.main.ShareViewModel
+import cd.zgeniuscoders.genesis.remote_controle.data.services.BluetoothRemoteControlServiceImpl
+import cd.zgeniuscoders.genesis.remote_controle.data.services.NotificationService
+import cd.zgeniuscoders.genesis.remote_controle.data.services.SpeechRecognitionService
 import cd.zgeniuscoders.genesis.remote_controle.domain.services.RemoteControlService
 import cd.zgeniuscoders.genesis.remote_controle.domain.use_case.RemoteControleInteractor
-import cd.zgeniuscoders.genesis.remote_controle.ui.framework.BluetoothRemoteControlServiceImpl
-import cd.zgeniuscoders.genesis.remote_controle.ui.framework.FakeBluetoothRemoteControlService
-import cd.zgeniuscoders.genesis.remote_controle.ui.framework.NotificationService
-import cd.zgeniuscoders.genesis.remote_controle.ui.framework.bluetooth.AndroidBluetoothController
-import cd.zgeniuscoders.genesis.remote_controle.ui.view.home.HomeViewModel
-import cd.zgeniuscoders.genesis.remote_controle.ui.view.pairedDevice.PairedDeviceViewModel
+import cd.zgeniuscoders.genesis.remote_controle.presentation.home.HomeViewModel
+import cd.zgeniuscoders.genesis.remote_controle.presentation.pairedDevice.PairedDeviceViewModel
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
 val remoteModule = module {
@@ -28,30 +24,20 @@ val remoteModule = module {
         RemoteControleInteractor.build(get<RemoteControlService>())
     }
 
-
-    single<ShareViewModel> {
-        ShareViewModel(
-            get<RemoteControleInteractor>(),
-            get<UserInteractor>(),
-            get<SessionService>(),
-        )
-    }
-
-
-    viewModel {
+    single<SpeechRecognitionService> {
         val appContext = androidContext()
-        val notification = NotificationService(appContext)
-
-        HomeViewModel(appContext, notification)
+        SpeechRecognitionService(appContext)
     }
 
-    viewModel<PairedDeviceViewModel> {
-        PairedDeviceViewModel()
+    single<NotificationService> {
+        val appContext = androidContext()
+        NotificationService(appContext)
     }
 
-    viewModel<OptVerificationViewModel> {
-        OptVerificationViewModel(get(), get())
-    }
+
+    viewModelOf(::ShareViewModel)
+    viewModelOf(::HomeViewModel)
+    viewModelOf(::PairedDeviceViewModel)
 
 
 }
