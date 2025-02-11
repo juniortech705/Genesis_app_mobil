@@ -10,5 +10,6 @@ data class ShareState(
     val isConnecting: Boolean = false,
     val errorMessage: String? = null,
     val isScanning: Boolean = true,
+    val powerLevel: Int = 0,
     val messages: List<BluetoothMessage> = emptyList()
 )

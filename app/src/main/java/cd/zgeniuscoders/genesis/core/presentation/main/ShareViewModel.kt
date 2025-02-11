@@ -52,8 +52,8 @@ class ShareViewModel(
             ShareEvent.PowerOff -> powerOff()
             ShareEvent.PowerOn -> powerOn()
             is ShareEvent.ConnectDevice -> connectToDevice(event.device)
-            is ShareEvent.PowerDown -> powerDown(event.value)
-            is ShareEvent.PowerUp -> powerUp(event.value)
+            is ShareEvent.PowerDown -> powerDown()
+            is ShareEvent.PowerUp -> powerUp()
             ShareEvent.startSpeech -> startRecognition()
         }
     }
@@ -205,15 +205,29 @@ class ShareViewModel(
         }
     }
 
-    private fun powerUp(value: String) {
+    private fun powerUp() {
         viewModelScope.launch {
-            remoteControleInteractor.powerUp.run(value)
+            if (state.value.powerLevel <= 9) {
+                var level = state.value.powerLevel
+                level += 1
+                _state.update {
+                    it.copy(powerLevel = level)
+                }
+                remoteControleInteractor.powerUp.run(level.toString())
+            }
         }
     }
 
-    private fun powerDown(value: String) {
+    private fun powerDown() {
         viewModelScope.launch {
-            remoteControleInteractor.powerUp.run(value)
+            if (state.value.powerLevel > 0) {
+                var level = state.value.powerLevel
+                level -= 1
+                _state.update {
+                    it.copy(powerLevel = level)
+                }
+                remoteControleInteractor.powerUp.run(level.toString())
+            }
         }
     }
 
@@ -231,9 +245,9 @@ class ShareViewModel(
                         is Resource.Success -> {
                             val message = res.data!!.toSpeechModel().message
 
-                            if(message.contains("éteindre")){
+                            if(message.contains("Genesis allume-toi")){
                                 powerOn()
-                            }else if(message.contains("allume-toi")){
+                            }else if(message.lowercase().contains("éteindre")){
                                 powerOff()
                             }
 

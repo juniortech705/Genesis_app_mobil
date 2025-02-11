@@ -54,8 +54,8 @@ fun PowerVolumeBottomSheet(
                 ) {
 
                     IconButton(onClick = {
-                        onShareEvent(ShareEvent.PowerUp("${state.powerLevel}"))
                         onEvent(HomeEvent.OnPowerUp)
+                        onShareEvent(ShareEvent.PowerUp("${state.powerLevel}"))
                     }) {
                         Icon(Icons.Filled.KeyboardArrowUp, contentDescription = "keyboard up")
                     }
@@ -63,8 +63,8 @@ fun PowerVolumeBottomSheet(
                     Text(text = "${state.powerLevel}")
 
                     IconButton(onClick = {
-                        onShareEvent(ShareEvent.PowerDown("${state.powerLevel}"))
                         onEvent(HomeEvent.OnPowerDown)
+                        onShareEvent(ShareEvent.PowerDown("${state.powerLevel}"))
                     }) {
                         Icon(Icons.Filled.KeyboardArrowDown, contentDescription = "keyboard down")
                     }
