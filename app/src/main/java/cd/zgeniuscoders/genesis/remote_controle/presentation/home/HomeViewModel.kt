@@ -64,6 +64,7 @@ class HomeViewModel(
                     state = state.copy(powerLevel = level)
                 }
             }
+
         }
     }
 
