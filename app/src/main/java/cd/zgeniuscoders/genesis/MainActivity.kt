@@ -63,7 +63,6 @@ class MainActivity : ComponentActivity(){
             GenesisTheme {
                 navController = rememberNavController()
 
-
                 RoutePage(navHostController = navController)
             }
         }

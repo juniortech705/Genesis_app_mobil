@@ -232,6 +232,11 @@ class ShareViewModel(
     }
 
     private fun startRecognition() {
+
+        _state.update {
+            it.copy(speechMessage = "")
+        }
+
         viewModelScope.launch {
             speechRecognitionService
                 .startSpeechRecognition()
@@ -239,15 +244,28 @@ class ShareViewModel(
 
                     when (res) {
                         is Resource.Error -> {
+                            _state.update {
+                                it.copy(speechMessage = res.message.toString())
+                            }
                             Log.i("AUDIO_RECOGNITION", res.message.toString())
                         }
 
                         is Resource.Success -> {
                             val message = res.data!!.toSpeechModel().message
 
-                            if(message.contains("Genesis allume-toi")){
+                            if(message.contains("Genesis allume toi")){
+
+                                _state.update {
+                                    it.copy(speechMessage = "ça marche")
+                                }
+
                                 powerOn()
                             }else if(message.lowercase().contains("éteindre")){
+
+                                _state.update {
+                                    it.copy(speechMessage = "ça marche pas")
+                                }
+
                                 powerOff()
                             }
 
