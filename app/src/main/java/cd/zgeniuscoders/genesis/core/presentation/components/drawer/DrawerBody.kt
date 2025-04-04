@@ -1,4 +1,4 @@
-package cd.zgeniuscoders.genesis.common.ui.views.components.drawer
+package cd.zgeniuscoders.genesis.core.presentation.components.drawer
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +15,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import cd.zgeniuscoders.genesis.common.ui.views.components.drawer.DrawerMenuItem
 import cd.zgeniuscoders.genesis.common.ui.views.main.ShareEvent
 import cd.zgeniuscoders.genesis.core.domain.utils.Routes
 import kotlinx.coroutines.launch

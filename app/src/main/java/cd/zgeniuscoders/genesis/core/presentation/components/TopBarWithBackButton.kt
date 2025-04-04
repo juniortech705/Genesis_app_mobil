@@ -33,7 +33,7 @@ fun TopBarWithBackButton(
 ) {
     val isDarkMode = isSystemInDarkTheme()
 
-    val contentColor = if(isSystemInDarkTheme()) Color.White else Color.Black
+    val contentColor = if (isSystemInDarkTheme()) Color.White else Color.Black
 
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -47,7 +47,7 @@ fun TopBarWithBackButton(
                 style = MaterialTheme.typography.titleMedium,
                 color = if (isDarkMode) Color.White else Color.Black
             )
-    },
+        },
         navigationIcon = {
 
             IconButton(

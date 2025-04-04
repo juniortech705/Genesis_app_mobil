@@ -2,26 +2,45 @@ package cd.zgeniuscoders.genesis.remote_controle.presentation.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BluetoothConnected
 import androidx.compose.material.icons.filled.FlashOn
 import androidx.compose.material.icons.filled.Kitchen
+import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.PowerSettingsNew
+import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material.icons.filled.Timer
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import cd.zgeniuscoders.genesis.core.presentation.components.drawer.DrawerBody
 import cd.zgeniuscoders.genesis.common.ui.views.main.ShareEvent
 import cd.zgeniuscoders.genesis.common.ui.views.main.ShareState
 import cd.zgeniuscoders.genesis.common.ui.views.theme.GenesisTheme
@@ -65,6 +84,7 @@ fun HomeView(
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeBody(
     navHostController: NavHostController,
@@ -126,53 +146,128 @@ fun HomeBody(
             }
         }
     )
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 10.dp)
-            .padding(top = 10.dp)
-    ) {
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        gesturesEnabled = drawerState.isOpen,
+        drawerContent = {
+            ModalDrawerSheet(
+            ) {
+                DrawerBody(
+                    navHostController = navHostController,
+                    drawerState = drawerState,
+                    onShareEvent
+                )
+            }
+        }) {
+        Scaffold(
+            topBar = {
+                CenterAlignedTopAppBar(
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            scope.launch {
+                                drawerState.open()
+                            }
+                        }) {
+                            Icon(imageVector = Icons.Default.Sort, contentDescription = null)
+                        }
+                    },
+                    title = { Text("Genesis") }
+                )
+            },
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState)
+            },
+            floatingActionButton = {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+
+                    if (shareState.isConnected) {
+                        FloatingActionButton(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            onClick = {
+                                onShareEvent(ShareEvent.startSpeech)
+                            }) {
+                            Icon(
+                                Icons.Filled.Mic,
+                                contentDescription = "record audio",
+                                tint = Color.White
+                            )
+                        }
+                    }
+
+                    FloatingActionButton(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        onClick = {
+                            navHostController.navigate(Routes.connectDevice.route)
+                        }) {
+                        Icon(
+                            Icons.Filled.BluetoothConnected,
+                            contentDescription = "pair new device",
+                            tint = Color.White
+                        )
+                    }
 
 
-        item(
-            span = { GridItemSpan(2) }
-        ) {
-            HomeCardBanner(state, shareState.messages, shareState.isConnected)
+                }
+            }
+        ) { innerP ->
+            Column(
+                modifier = Modifier.padding(innerP)
+            ) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 10.dp)
+                        .padding(top = 10.dp)
+                ) {
+
+
+                    item(
+                        span = { GridItemSpan(2) }
+                    ) {
+                        HomeCardBanner(state, shareState.messages, shareState.isConnected)
+                    }
+
+                    items(homeItems.size) {
+                        GenesisHomeCard(
+                            title = homeItems[it].title,
+                            icon = homeItems[it].icon,
+                            onClick = homeItems[it].onClick,
+                            description = homeItems[it].description,
+                        )
+                    }
+
+
+                }
+
+                TimerBottomSheet(
+                    state,
+                    onEvent,
+                    onShareEvent
+                )
+
+                PowerOnBottomSheet(
+                    state,
+                    onEvent,
+                    onShareEvent
+                )
+
+                PowerVolumeBottomSheet(
+                    state,
+                    onEvent,
+                    onShareEvent
+                )
+            }
         }
-
-        items(homeItems.size) {
-            GenesisHomeCard(
-                title = homeItems[it].title,
-                icon = homeItems[it].icon,
-                onClick = homeItems[it].onClick,
-                description = homeItems[it].description,
-            )
-        }
-
-
     }
 
-    TimerBottomSheet(
-        state,
-        onEvent,
-        onShareEvent
-    )
 
-    PowerOnBottomSheet(
-        state,
-        onEvent,
-        onShareEvent
-    )
-
-    PowerVolumeBottomSheet(
-        state,
-        onEvent,
-        onShareEvent
-    )
 }
 
 
