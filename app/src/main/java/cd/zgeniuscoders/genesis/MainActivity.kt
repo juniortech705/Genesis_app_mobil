@@ -19,10 +19,10 @@ import androidx.core.content.ContextCompat
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import cd.zgeniuscoders.genesis.common.utility.preferences
-import cd.zgeniuscoders.genesis.common.ui.views.main.RoutePage
+import cd.zgeniuscoders.genesis.core.domain.utils.preferences
+import cd.zgeniuscoders.genesis.core.presentation.main.RoutePage
 import cd.zgeniuscoders.genesis.common.ui.views.theme.GenesisTheme
-import cd.zgeniuscoders.genesis.common.utility.Constants
+import cd.zgeniuscoders.genesis.core.domain.utils.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -52,6 +52,7 @@ class MainActivity : ComponentActivity(){
 
         requestBluetoothPermissions()
         requestNotificationPermission()
+        requestAudioRecordPermission()
 
         val IS_LOGGED = booleanPreferencesKey(Constants.IS_LOGGED_KEY)
         val prefs: Flow<Boolean> = preferences.data.map { prefs ->
@@ -82,6 +83,18 @@ class MainActivity : ComponentActivity(){
         }
     }
 
+    private fun requestAudioRecordPermission(){
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.RECORD_AUDIO
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this, arrayOf(Manifest.permission.RECORD_AUDIO),
+                REQUEST_CODE_PERMISSION
+            )
+        }
+    }
 
     private fun requestBluetoothPermissions(){
 

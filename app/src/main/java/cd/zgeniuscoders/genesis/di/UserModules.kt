@@ -1,19 +1,19 @@
 package cd.zgeniuscoders.genesis.di
 
+import cd.zgeniuscoders.genesis.authentication.data.services.FakeAuthenticationService
 import cd.zgeniuscoders.genesis.authentication.domain.services.AuthenticationApi
 import cd.zgeniuscoders.genesis.authentication.domain.services.AuthenticationService
 import cd.zgeniuscoders.genesis.authentication.domain.usecases.UserInteractor
-import cd.zgeniuscoders.genesis.authentication.ui.framework.AuthenticationServiceImpl
-import cd.zgeniuscoders.genesis.authentication.ui.framework.FakeAuthenticationService
-import cd.zgeniuscoders.genesis.authentication.ui.framework.SessionService
-import cd.zgeniuscoders.genesis.authentication.ui.views.forgot.ForgotPasswordViewModel
-import cd.zgeniuscoders.genesis.authentication.ui.views.login.LoginViewModel
-import cd.zgeniuscoders.genesis.authentication.ui.views.register.RegisterViewModel
-import cd.zgeniuscoders.genesis.authentication.ui.views.reset.ResetPasswordViewModel
+import cd.zgeniuscoders.genesis.authentication.ui.presentation.forgot.ForgotPasswordViewModel
+import cd.zgeniuscoders.genesis.authentication.ui.presentation.login.LoginViewModel
+import cd.zgeniuscoders.genesis.authentication.ui.presentation.opt_verification.OptVerificationViewModel
+import cd.zgeniuscoders.genesis.authentication.ui.presentation.register.RegisterViewModel
+import cd.zgeniuscoders.genesis.authentication.ui.presentation.reset.ResetPasswordViewModel
+import cd.zgeniuscoders.genesis.core.data.services.SessionService
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -56,23 +56,11 @@ val userModule = module {
         SessionService(androidContext())
     }
 
-    viewModel<LoginViewModel> {
-        val userInteractor = get<UserInteractor>()
-        LoginViewModel(userInteractor, get<SessionService>())
-    }
+    viewModelOf(::RegisterViewModel)
+    viewModelOf(::ResetPasswordViewModel)
+    viewModelOf(::ForgotPasswordViewModel)
+    viewModelOf(::LoginViewModel)
+    viewModelOf(::OptVerificationViewModel)
 
-    viewModel<ForgotPasswordViewModel> {
-        val userInteractor = get<UserInteractor>()
-        ForgotPasswordViewModel(userInteractor)
-    }
 
-    viewModel<ResetPasswordViewModel> {
-        val userInteractor = get<UserInteractor>()
-        ResetPasswordViewModel(userInteractor)
-    }
-
-    viewModel<RegisterViewModel> {
-        val userInteractor = get<UserInteractor>()
-        RegisterViewModel(userInteractor, get<SessionService>())
-    }
 }

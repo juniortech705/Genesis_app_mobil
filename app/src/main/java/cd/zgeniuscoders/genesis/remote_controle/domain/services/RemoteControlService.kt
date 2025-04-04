@@ -18,9 +18,9 @@ interface RemoteControlService {
 
     suspend fun buzzer()
 
-    suspend fun powerUp()
+    suspend fun powerUp(value: String)
 
-    suspend fun powerDown()
+    suspend fun powerDown(value: String)
 
     suspend fun checkAuthorization()
 

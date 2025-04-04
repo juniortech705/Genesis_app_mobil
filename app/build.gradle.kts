@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "cd.zgeniuscoders.genesis"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "cd.zgeniuscoders.genesis"
@@ -105,7 +105,7 @@ dependencies {
 
     implementation(libs.androidx.material.icons.extended.android)
 
-    implementation ("androidx.core:core-splashscreen:1.0.0")
+    implementation ("androidx.core:core-splashscreen:1.0.1")
 
 
 }

@@ -1,8 +1,7 @@
 package cd.zgeniuscoders.genesis.authentication.domain.usecases
 
-import cd.zgeniuscoders.genesis.common.utility.Resource
+import cd.zgeniuscoders.genesis.core.domain.utils.Resource
 import cd.zgeniuscoders.genesis.authentication.domain.models.Request.ForgotPasswordRequest
-import cd.zgeniuscoders.genesis.authentication.domain.models.dto.AuthenticationDto
 import cd.zgeniuscoders.genesis.authentication.domain.models.dto.ForgotPasswordDto
 import cd.zgeniuscoders.genesis.authentication.domain.services.AuthenticationService
 

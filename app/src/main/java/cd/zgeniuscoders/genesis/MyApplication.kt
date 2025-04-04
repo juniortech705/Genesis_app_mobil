@@ -6,7 +6,7 @@ import android.app.NotificationManager
 import android.content.Context
 import cd.zgeniuscoders.genesis.di.remoteModule
 import cd.zgeniuscoders.genesis.di.userModule
-import cd.zgeniuscoders.genesis.remote_controle.ui.framework.NotificationService
+import cd.zgeniuscoders.genesis.remote_controle.data.services.NotificationService
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 

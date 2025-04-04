@@ -2,7 +2,7 @@ package cd.zgeniuscoders.genesis.remote_controle.domain.services
 
 import android.bluetooth.BluetoothSocket
 import cd.zgeniuscoders.genesis.remote_controle.domain.models.BluetoothMessage
-import cd.zgeniuscoders.genesis.remote_controle.ui.framework.extensions.toBluetoothMessage
+import cd.zgeniuscoders.genesis.remote_controle.data.mappers.toBluetoothMessage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
