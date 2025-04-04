@@ -2,6 +2,7 @@
 
 package cd.zgeniuscoders.genesis.core.presentation.main
 
+import android.speech.tts.TextToSpeech
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,7 +28,9 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -60,6 +63,7 @@ import cd.zgeniuscoders.genesis.remote_controle.presentation.home.HomeView
 import cd.zgeniuscoders.genesis.remote_controle.presentation.pairedDevice.PairedDeviceView
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
+import java.util.Locale
 
 @ExperimentalMaterial3Api
 @Composable
@@ -74,6 +78,8 @@ fun RoutePage(
     var topBarTitle by remember {
         mutableStateOf("Découverte de Dispositifs")
     }
+    var isSpeaking by remember { mutableStateOf(false) }
+    val tts = rememberTextToSpeech()
 
     var isTopBarShow by remember {
         mutableStateOf(false)
@@ -97,12 +103,15 @@ fun RoutePage(
         Routes.profile.route -> {
             "Profile"
         }
+
         Routes.pairedDevice.route -> {
             "Réchauds Connus"
         }
+
         Routes.controlDevice.route -> {
             "Contrôle du réchaud BT_GENESIS"
         }
+
         else -> {
             "Découverte"
         }
@@ -115,6 +124,14 @@ fun RoutePage(
     val state by shareViewModel.state.collectAsState()
 
     val appContext = LocalContext.current
+
+    LaunchedEffect(state.speechMessage) {
+        if (state.speechMessage.isNotBlank()) {
+            tts.value?.speak(
+                state.speechMessage, TextToSpeech.QUEUE_FLUSH, null, ""
+            )
+        }
+    }
 
     LaunchedEffect(key1 = state.isConnected) {
         if (state.isConnected) {
@@ -141,12 +158,17 @@ fun RoutePage(
     val snackbarHostState = SnackbarHostState()
     val onEvent = shareViewModel::onTriggerEvent
 
-    ModalNavigationDrawer(drawerState = drawerState,
+    ModalNavigationDrawer(
+        drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
         drawerContent = {
             ModalDrawerSheet(
             ) {
-                DrawerBody(navHostController = navHostController, drawerState = drawerState,onEvent)
+                DrawerBody(
+                    navHostController = navHostController,
+                    drawerState = drawerState,
+                    onEvent
+                )
             }
         }) {
         Scaffold(
@@ -181,18 +203,18 @@ fun RoutePage(
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
 
-                        if(state.isConnected){
-                            FloatingActionButton(
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                onClick = {
-                                    onEvent(ShareEvent.startSpeech)
-                                }) {
-                                Icon(
-                                    Icons.Filled.Mic,
-                                    contentDescription = "record audio",
-                                    tint = Color.White
-                                )
-                            }
+//                        if(state.isConnected){
+                        FloatingActionButton(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            onClick = {
+                                onEvent(ShareEvent.startSpeech)
+                            }) {
+                            Icon(
+                                Icons.Filled.Mic,
+                                contentDescription = "record audio",
+                                tint = Color.White
+                            )
+//                            }
                         }
 
                         FloatingActionButton(
@@ -285,4 +307,24 @@ fun RoutePage(
 @Preview(showBackground = true)
 fun RoutePagePreview() {
     RoutePage(rememberNavController())
+}
+
+@Composable
+fun rememberTextToSpeech(): MutableState<TextToSpeech?> {
+    val context = LocalContext.current
+    val tts = remember { mutableStateOf<TextToSpeech?>(null) }
+    DisposableEffect(context) {
+        val textToSpeech = TextToSpeech(context) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                tts.value?.language = Locale.FRENCH
+            }
+        }
+        tts.value = textToSpeech
+
+        onDispose {
+            textToSpeech.stop()
+            textToSpeech.shutdown()
+        }
+    }
+    return tts
 }

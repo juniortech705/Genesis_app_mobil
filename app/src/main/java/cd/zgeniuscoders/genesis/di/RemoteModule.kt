@@ -2,6 +2,7 @@ package cd.zgeniuscoders.genesis.di
 
 import cd.zgeniuscoders.genesis.core.presentation.main.ShareViewModel
 import cd.zgeniuscoders.genesis.remote_controle.data.services.BluetoothRemoteControlServiceImpl
+import cd.zgeniuscoders.genesis.remote_controle.data.services.FakeBluetoothRemoteControlService
 import cd.zgeniuscoders.genesis.remote_controle.data.services.NotificationService
 import cd.zgeniuscoders.genesis.remote_controle.data.services.SpeechRecognitionService
 import cd.zgeniuscoders.genesis.remote_controle.domain.services.RemoteControlService
@@ -16,8 +17,8 @@ val remoteModule = module {
 
     single<RemoteControlService> {
         val appContext = androidContext()
-        BluetoothRemoteControlServiceImpl(appContext)
-//        FakeBluetoothRemoteControlService()
+//        BluetoothRemoteControlServiceImpl(appContext)
+        FakeBluetoothRemoteControlService()
     }
 
     single<RemoteControleInteractor> {
