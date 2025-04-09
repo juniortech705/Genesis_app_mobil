@@ -9,10 +9,11 @@ sealed class Routes(val route: String) {
     data object reset_password : Routes("reset_password")
     data object home : Routes("home")
     data object profile : Routes("profile")
+    data object chatbox : Routes("chatbox")
 
-    data object connectDevice: Routes("connect_device")
+    data object connectDevice : Routes("connect_device")
     data object pairedDevice : Routes("pair_device")
-    data object controlDevice: Routes("control_device")
+    data object controlDevice : Routes("control_device")
 
     data object opt_verification : Routes("opt_verication")
 }

@@ -32,6 +32,7 @@ import cd.zgeniuscoders.genesis.authentication.ui.presentation.profile.ProfileVi
 import cd.zgeniuscoders.genesis.authentication.ui.presentation.register.RegisterView
 import cd.zgeniuscoders.genesis.authentication.ui.presentation.reset.ResetPasswordView
 import cd.zgeniuscoders.genesis.remote_controle.presentation.addDevice.AddDeviceView
+import cd.zgeniuscoders.genesis.remote_controle.presentation.chatbot.ChatBotPage
 import cd.zgeniuscoders.genesis.remote_controle.presentation.home.HomeView
 import cd.zgeniuscoders.genesis.remote_controle.presentation.pairedDevice.PairedDeviceView
 import org.koin.androidx.compose.koinViewModel
@@ -81,7 +82,7 @@ fun RoutePage(
 
     NavHost(
         navController = navHostController,
-        startDestination = Routes.splash_screen.route,
+        startDestination = Routes.chatbox.route,
         modifier = Modifier
             .fillMaxSize()
     ) {
@@ -115,6 +116,12 @@ fun RoutePage(
                 state.pairedDevices,
                 onEvent,
                 state,
+                snackbarHostState
+            )
+        }
+        composable(route = Routes.chatbox.route) {
+            ChatBotPage(
+                navHostController,
                 snackbarHostState
             )
         }
