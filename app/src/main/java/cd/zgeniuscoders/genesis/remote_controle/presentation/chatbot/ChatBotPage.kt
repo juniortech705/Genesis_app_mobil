@@ -98,37 +98,6 @@ fun ChatBotBody(
                     onEvent
                 )
             }
-            item {
-                Row(
-                    modifier = Modifier
-                ) {
-                    TextField(
-                        modifier = Modifier
-                            .weight(0.8f)
-                            .heightIn(min = 50.dp, max = 120.dp),
-                        trailingIcon = {
-                            IconButton(
-                                onClick = { onEvent(ChatBotEvent.OnSendMessageButtonClick) },
-                                enabled = state.message.isNotEmpty()
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Send,
-                                    contentDescription = "send icon"
-                                )
-                            }
-                        },
-                        value = state.message,
-                        onValueChange = {
-                            onEvent(ChatBotEvent.OnMessageFieldChange(it))
-                        },
-                        maxLines = 4,
-                        colors = TextFieldDefaults.colors(
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent
-                        )
-                    )
-                }
-            }
         }
 
     }

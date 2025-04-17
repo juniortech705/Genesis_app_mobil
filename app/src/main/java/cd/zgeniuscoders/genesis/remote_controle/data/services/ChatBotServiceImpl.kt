@@ -18,6 +18,79 @@ class ChatBotServiceImpl(
     private val chatBotDao: ChatBotDao
 ) : ChatBotService {
 
+    val responseRules = listOf(
+        // 1. Accueil & Salutations
+        listOf("bonjour", "salut", "hey", "coucou", "bonsoir") to
+                "Bonjour ! Comment puis-je vous aider avec votre réchaud à induction aujourd’hui ?",
+
+        listOf("merci", "merci beaucoup", "super merci") to
+                "De rien ! N'hésitez pas si vous avez d'autres questions.",
+
+        listOf("au revoir", "bye", "à plus") to
+                "Au revoir ! Passez une excellente journée. N'hésitez pas à revenir si besoin !",
+
+        // 2. Fonctionnement de Base
+        listOf(
+            "comment allumer le réchaud ?",
+            "je veux démarrer la cuisson",
+            "allumer la plaque"
+        ) to
+                "Pour allumer le réchaud :\n1. Ouvrez l’application.\n2. Appuyez sur le bouton Power.\n3. Ajustez la température si nécessaire.",
+
+        listOf("comment éteindre le réchaud ?", "arrêter la cuisson", "éteindre la plaque") to
+                "Pour éteindre :\n1. Allez dans l’app\n2. Cliquez sur Éteindre.",
+
+        listOf(
+            "comment régler la température ?",
+            "augmenter la chaleur",
+            "baisser la température"
+        ) to
+                "Ajustez la température via le bouton dans l’app (de 0 à ≈120). Vous pouvez aussi utiliser des préréglages comme Faire bouillir ou Mijoter.",
+
+        // 3. Connexion & Appairage
+        listOf("comment connecter le réchaud ?", "pairing bluetooth", "problème de connexion") to
+                "1. Activez le Bluetooth de votre smartphone.\n2. Lancez l’app et allez dans Paramètres > Appairage.\n3. Sélectionnez votre réchaud Genesis.\n4. Confirmez le code à 4 chiffres si demandé.",
+
+        listOf("le réchaud ne se connecte pas", "bluetooth ne marche pas", "erreur de connexion") to
+                "Essayez ceci :\n- Redémarrez l’app et le Bluetooth.\n- Vérifiez que le réchaud est sous tension.\n- Si ça persiste, réinitialisez le réchaud (Paramètres > Réinitialiser).",
+
+        // 4. Sécurité
+        listOf("comment activer le verrou enfant ?", "mode sécurité", "bloquer les touches") to
+                "Allez dans Sécurité > Verrouillage enfant dans l’app. Un code à 4 chiffres sera demandé pour toute modification.",
+
+        listOf(
+            "quelle casserole utiliser ?",
+            "compatibilité ustensiles",
+            "pourquoi ça ne chauffe pas ?"
+        ) to
+                "Seules les casseroles ferromagnétiques (acier, fonte) fonctionnent. Vérifiez le logo compatible induction sous la casserole.",
+
+        // 5. Dépannage
+        listOf("le réchaud affiche e2", "erreur e2", "problème surchauffe") to
+                "E2 = Surchauffe. Éteignez le réchaud 10 min, puis rallumez. Vérifiez aussi la ventilation autour de l’appareil.",
+
+        listOf("comment réinitialiser le réchaud ?", "reset usine") to
+                "Allez dans Paramètres > Réinitialisation usine dans l’app. Confirmez avec votre mot de passe.",
+
+        // 6. Astuces & Optimisation
+        listOf("comment économiser l'énergie ?", "réduire consommation") to
+                "Utilisez des casseroles à fond plat, couvrez-les, et privilégiez les puissances moyennes. L’app propose aussi un mode Éco.",
+
+        listOf("nettoyer la plaque", "entretien induction") to
+                "Éteignez le réchaud, puis utilisez un chiffon doux et un produit vitrocéramique. Évitez les abrasifs !",
+
+        // 7. Support & Feedback
+        listOf("contacter le support", "aide urgente", "problème grave") to
+                "Notre équipe est joignable au +243 823132960 ou juniorangambun2@gmail.com. Décrivez votre problème avec une photo si possible.",
+
+        listOf("où laisser un avis ?", "je veux suggérer une fonction") to
+                "Rendez-vous sur Notre App > Menu > Feedback, ou notez-nous sur l’App Store/Play Store ! Merci pour votre contribution.",
+
+        // 8. Commandes vocales
+        listOf("allume la plaque 2", "puissance maximale", "mets sur mijoter") to
+                "Bien reçu ! La plaque 2 est allumée en mode mijotage (niveau 3). Bonne cuisine !"
+    )
+
     override suspend fun getMessages(): Flow<List<ChatBot>> = callbackFlow {
 
         chatBotDao
@@ -39,32 +112,25 @@ class ChatBotServiceImpl(
     }
 
     override suspend fun sendMessage(message: ChatSendMessage) {
-        chatBotDao.add(ChatBotEntity.fromModel(message))
+        val cleanedMessage = message.message.lowercase().trim()
+        chatBotDao.add(ChatBotEntity.fromModel(message.copy(message = cleanedMessage)))
 
-        val chat = when {
+        for ((keywords, response) in responseRules) {
+            if (keywords.any { cleanedMessage.contains(it) }) {
+                var chat = ChatSendMessage(message = response, isRobot = true)
+                chatBotDao.add(ChatBotEntity.fromModel(chat))
 
-            message.message.contains(
-                "bonjour",
-                ignoreCase = true
-            ) -> ChatSendMessage(message = "Salut, comment puis-je t'aider ?", isRobot = true)
-
-            message.message.contains(
-                "comment ça va",
-                ignoreCase = true
-            ) -> ChatSendMessage(message = "Je vais bien, merci ! Et toi ?", isRobot = true)
-
-            message.message.contains(
-                "aide",
-                ignoreCase = true
-            ) -> ChatSendMessage(
-                message = "Je suis ici pour t'aider. Quelle est ta question ?",
-                isRobot = true
-            )
-
-            else -> ChatSendMessage(message = "Désolé, je n'ai pas compris.", isRobot = true)
+            }
         }
 
-        chatBotDao.add(ChatBotEntity.fromModel(chat))
+        chatBotDao.add(
+            ChatBotEntity.fromModel(
+                ChatSendMessage(
+                    message = "Désolé, je n’ai pas compris votre demande.",
+                    isRobot = true
+                )
+            )
+        )
     }
 
     override suspend fun startChat() {
