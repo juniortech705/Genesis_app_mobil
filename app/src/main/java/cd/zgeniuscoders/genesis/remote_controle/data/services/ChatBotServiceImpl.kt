@@ -119,7 +119,7 @@ class ChatBotServiceImpl(
             if (keywords.any { cleanedMessage.contains(it) }) {
                 var chat = ChatSendMessage(message = response, isRobot = true)
                 chatBotDao.add(ChatBotEntity.fromModel(chat))
-
+                return
             }
         }
 

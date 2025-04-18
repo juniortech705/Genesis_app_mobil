@@ -82,7 +82,7 @@ fun RoutePage(
 
     NavHost(
         navController = navHostController,
-        startDestination = Routes.chatbox.route,
+        startDestination = Routes.home.route,
         modifier = Modifier
             .fillMaxSize()
     ) {

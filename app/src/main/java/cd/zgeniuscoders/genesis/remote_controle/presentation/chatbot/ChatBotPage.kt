@@ -82,7 +82,7 @@ fun ChatBotBody(
         topBar = {
             TopAppBar(
                 title = {
-                    Text("Chatbot")
+                    Text("Athena")
                 }
             )
         })

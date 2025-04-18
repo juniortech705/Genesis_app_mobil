@@ -34,7 +34,7 @@ fun ChatItem(message: ChatBot, onEvent: (event: ChatBotEvent) -> Unit) {
         modifier = Modifier
             .fillMaxSize()
             .padding(vertical = 2.dp, horizontal = 10.dp),
-        horizontalAlignment = if (message.isRobot) Alignment.End else Alignment.Start
+        horizontalAlignment = if (message.isRobot) Alignment.Start else Alignment.End
     ) {
         Card(
             modifier = Modifier
@@ -46,7 +46,7 @@ fun ChatItem(message: ChatBot, onEvent: (event: ChatBotEvent) -> Unit) {
                         },
                     )
                 }, colors = CardDefaults.cardColors(
-                containerColor = if (message.isRobot) MaterialTheme.colorScheme.primary
+                containerColor = if (!message.isRobot) MaterialTheme.colorScheme.primary
                 else MaterialTheme.colorScheme.surfaceContainerHigh
             )
         ) {

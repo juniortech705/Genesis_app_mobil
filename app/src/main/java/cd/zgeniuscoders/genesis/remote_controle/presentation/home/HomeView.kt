@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BluetoothConnected
+import androidx.compose.material.icons.filled.DataExploration
 import androidx.compose.material.icons.filled.FlashOn
 import androidx.compose.material.icons.filled.Kitchen
 import androidx.compose.material.icons.filled.Mic
@@ -206,6 +207,18 @@ fun HomeBody(
                         Icon(
                             Icons.Filled.BluetoothConnected,
                             contentDescription = "pair new device",
+                            tint = Color.White
+                        )
+                    }
+
+                    FloatingActionButton(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        onClick = {
+                            navHostController.navigate(Routes.chatbox.route)
+                        }) {
+                        Icon(
+                            Icons.Filled.DataExploration,
+                            contentDescription = "chatbot",
                             tint = Color.White
                         )
                     }
