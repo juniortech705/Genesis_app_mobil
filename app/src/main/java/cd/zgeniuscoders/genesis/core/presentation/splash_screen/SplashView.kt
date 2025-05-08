@@ -41,7 +41,7 @@ fun SplashView(navHostController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(id = R.drawable.logo_genesis),
+                painter = painterResource(id = R.drawable.logo_special),
                 contentDescription = "genesis logo",
                 modifier = Modifier.width(200.dp)
             )

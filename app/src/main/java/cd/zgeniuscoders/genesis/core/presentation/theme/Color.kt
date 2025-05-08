@@ -1,4 +1,4 @@
-package cd.zgeniuscoders.genesis.common.ui.views.theme
+package cd.zgeniuscoders.genesis.core.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

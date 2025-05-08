@@ -23,7 +23,7 @@ import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import cd.zgeniuscoders.genesis.R
-import cd.zgeniuscoders.genesis.common.ui.views.theme.primaryLight
+import cd.zgeniuscoders.genesis.core.presentation.theme.primaryLight
 import kotlin.math.PI
 import kotlin.math.atan2
 
