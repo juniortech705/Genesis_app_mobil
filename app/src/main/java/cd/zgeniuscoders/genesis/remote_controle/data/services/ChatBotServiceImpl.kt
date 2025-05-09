@@ -20,38 +20,343 @@ class ChatBotServiceImpl(
 
     val responseRules = listOf(
         // 1. Accueil & Salutations
-        listOf("bonjour", "salut", "hey", "coucou", "bonsoir") to
-                "Bonjour ! Comment puis-je vous aider avec votre réchaud à induction aujourd’hui ?",
+        listOf(
+            "bonjour",
+            "bonjour athena",
+            "Bonjour athena",
+            "Bonjour athena",
+            "salut athena",
+            "athena",
+            "Athena",
+            "genesis",
+            "Genesis",
+            "salut",
+            "hey",
+            "coucou",
+            "bonsoir",
+            "yo",
+            "wesh",
+            "slt",
+            "bjr",
+            "cc",
+            "yop",
+            "heya",
+            "salut toi",
+            "eh bonjour",
+            "yo poto",
+            "kikoo",
+            "holla",
+            "hé mec",
+            "ça dit quoi",
+            "ça va ?",
+            "allo",
+            "salu",
+            "bonjor",
+            "bonsoire",
+            "slut",
+            "hellow",
+            "slt le bot",
+            "he coucou",
+            "j’ai une question",
+            "ptit coucou",
+            "bonjour le robot",
+            "yo le chef",
+            "salutation",
+            "salut machine",
+            "bien ou quoi",
+            "hé le cuisto numérique",
+            "hello l’IA",
+            "wsh bot",
+            "salut je veux cuisiner",
+            "bonjour je peux poser une question ?",
+            "yo, ça marche comment ton truc ?",
+            "hé t’es là ?",
+            "cc, je t'entends ?",
+            "bonjour réchaud",
+            "je parle au robot ?",
+            "coucou, t’es là ?",
+            "bonjour, comment tu fonctionnes ?",
+            "hé répondez svp",
+            "je veux parler",
+            "yo bro, comment",
+            "slt slt"
+        ) to "Bonjour ! Comment puis-je vous aider avec votre réchaud à induction aujourd’hui ?",
 
-        listOf("merci", "merci beaucoup", "super merci") to
+                listOf("merci", "merci beaucoup", "super merci", "cool") to
                 "De rien ! N'hésitez pas si vous avez d'autres questions.",
 
-        listOf("au revoir", "bye", "à plus") to
-                "Au revoir ! Passez une excellente journée. N'hésitez pas à revenir si besoin !",
+        listOf(
+            "au revoir",
+            "bye",
+            "à plus",
+            "ciao",
+            "à bientôt",
+            "salut",
+            "je me casse",
+            "à la prochaine",
+            "je pars",
+            "on se reparle",
+            "bonne journée",
+            "merci et à bientôt",
+            "à plus tard",
+            "je vous laisse",
+            "on se capte",
+            "on se revoit",
+            "je quitte",
+            "à tout à l’heure",
+            "bonne soirée",
+            "à la revoyure",
+            "adieu",
+            "aurevoir",
+            "bye bye",
+            "a plu",
+            "ciao ciao",
+            "jte laisse",
+            "jmen vais",
+            "a la proch",
+            "a tt",
+            "bn journé",
+            "je deco",
+            "a pluche",
+            "a la prochaine fois",
+            "bonne continuation",
+            "à une prochaine",
+            "a+",
+            "chao",
+            "a la plus",
+            "à toute",
+            "a tout",
+            "bne soirée",
+            "je vous quitte",
+            "bnne journé",
+            "bey",
+            "alé tchao",
+            "jdois y aller",
+            "merci et bye",
+            "jme barre",
+            "merci bcp à +",
+            "je coupe ici"
+        ) to "Au revoir ! Passez une excellente journée. N'hésitez pas à revenir si besoin !",
 
-        // 2. Fonctionnement de Base
+                // 2. Fonctionnement de Base
         listOf(
             "comment allumer le réchaud ?",
+            "comment demarrer mon réchaud à distance",
+            "comment demarrer mon rechaud à distance",
+            "comment demarrer mon rechaud à distance",
+            "je veux allumer le rechaud",
+            "allumer le réchaud",
+            "allume toi",
+            "allume",
+            "allumage",
+            "comment se passe l'allumage",
             "je veux démarrer la cuisson",
-            "allumer la plaque"
-        ) to
-                "Pour allumer le réchaud :\n1. Ouvrez l’application.\n2. Appuyez sur le bouton Power.\n3. Ajustez la température si nécessaire.",
-
-        listOf("comment éteindre le réchaud ?", "arrêter la cuisson", "éteindre la plaque") to
+            "allumer la plaque",
+            "mettre en marche le réchaud",
+            "comment démarrer la plaque",
+            "je veux lancer la cuisson",
+            "activer le feu",
+            "comment utiliser le réchaud",
+            "lancer la cuisson maintenant",
+            "je veux faire chauffer",
+            "allumage du feu",
+            "comment activer la plaque",
+            "marche du réchaud",
+            "lancer la plaque de cuisson",
+            "coment alumer le rechaud",
+            "je veu alumer le recho",
+            "alumé le rechaud",
+            "alume toi",
+            "allumaje",
+            "coment ce pase lallumage",
+            "je veu demarer la cuison",
+            "alumer la plaque",
+            "alumé la plaq",
+            "je veu fair chofé",
+            "je veux activer la plaque et régler la température",
+            "comment allumer et ajuster la cuisson",
+            "démarrer le feu et cuire rapidement",
+            "mettre en marche et choisir le niveau de chaleur",
+            "allume la plaque et règle à feu moyen",
+            "je veux commencer à cuisiner avec le réchaud",
+            "démarre le réchaud et chauffe à 100",
+            "démarre et règle la température à mijoter",
+            "lance la plaque et commence la cuisson",
+            "je souhaite allumer et cuire à température douce",
+            "activer et chauffer à feu doux",
+            "lance la cuisson et règle à feu fort",
+            "mets en marche puis ajuste le niveau de chaleur",
+            "je commence la cuisson, allume la plaque",
+            "démarre la plaque avec puissance moyenne",
+            "réchauffer et cuire en même temps",
+            "comment lancer et régler la plaque",
+            "mettre le réchaud en marche et faire mijoter",
+            "je veux chauffer et commencer à cuire"
+        ) to "Pour allumer le réchaud :\n1. Ouvrez l’application.\n2. Appuyez sur le bouton Power.\n3. Ajustez la température si nécessaire.",
+                listOf("comment éteindre le réchaud ?", "arrêter la cuisson", "éteindre la plaque") to
                 "Pour éteindre :\n1. Allez dans l’app\n2. Cliquez sur Éteindre.",
-
         listOf(
+            "comment éteindre le réchaud ?",
+            "je veux éteindre le réchaud",
+            "éteindre la plaque",
+            "comment couper le réchaud",
+            "comment arrêter le réchaud",
+            "arrêter la cuisson",
+            "éteindre le feu",
+            "fermer le réchaud",
+            "stopper la plaque",
+            "désactiver le réchaud",
+            "arrêter la plaque de cuisson",
+            "mettre le réchaud hors tension",
+            "comment désactiver le réchaud",
+            "éteindre la plaque maintenant",
+            "je veux couper la plaque",
+            "comment couper la chaleur",
+            "je veux éteindre la plaque",
+            "éteindre le feu maintenant",
+            "couper la plaque",
+            "je veux arrêter la cuisson",
+            "je coupe le réchaud",
+            "éteint la plaque",
+            "je veux arrêter",
+            "comment éteindre le feu",
+            "comment stopper le réchaud",
+            "arrêter la cuisson maintenant",
+            "comment couper le feu",
+            "mettre la plaque hors tension",
+            "je veux stopper la cuisson",
+            "comment couper l'alimentation",
+            "fermer le feu",
+            "coupé le réchaud",
+            "arretez la plaque",
+            "comment arreter la cuisson",
+            "éteindre la plaque de cuisson",
+            "je veux mettre fin à la cuisson",
+            "fermer le feu",
+            "je veux couper la chaleur",
+            "stopper le réchaud",
+            "éteint le réchaud",
+            "désactiver la plaque",
+            "éteindre l'appareil"
+        ) to "Pour éteindre le réchaud :\n1. Ouvrez l’application.\n2. Appuyez sur le bouton Power.\n3. Ajustez la température à 0 pour éteindre la plaque.",
+
+
+                listOf(
+            // Intentions d'origine
             "comment régler la température ?",
             "augmenter la chaleur",
-            "baisser la température"
-        ) to
-                "Ajustez la température via le bouton dans l’app (de 0 à ≈120). Vous pouvez aussi utiliser des préréglages comme Faire bouillir ou Mijoter.",
+            "baisser la température",
+            "modifier la température",
+            "régler la chaleur",
+            "diminuer la température",
+            "monter la chaleur",
+            "changer le niveau de cuisson",
+            "ajuster la température",
+            "mettre plus chaud",
+            "régler la teperature",
+            "régler la plaque",
+            "comen regler la temperature",
+            "augmenter la chaleure",
+            "baiser la temperature",
+            "regler la temperature",
+            "modifier la temperateur",
+            "comment regle la temperatur",
+            "changer nivo cuisson",
+            "ajustr la chaleur",
+            "mete moin chaud", "comment regler la temperature",
+            "refrodir la plaqu",
 
-        // 3. Connexion & Appairage
-        listOf("comment connecter le réchaud ?", "pairing bluetooth", "problème de connexion") to
-                "1. Activez le Bluetooth de votre smartphone.\n2. Lancez l’app et allez dans Paramètres > Appairage.\n3. Sélectionnez votre réchaud Genesis.\n4. Confirmez le code à 4 chiffres si demandé.",
+            // Nouvelles intentions ajoutées
+            "comment augmenter la température de cuisson",
+            "réglage de température du réchaud",
+            "baisser un peu la température",
+            "est-ce qu’on peut régler la température ?",
+            "mettre la température à 100 degrés",
+            "je veux que ça chauffe plus",
+            "il fait trop chaud, baisse un peu",
+            "réduis la puissance de chauffe",
+            "j’aimerais cuire à feu doux",
+            "augmente la chaleur de la plaque",
 
-        listOf("le réchaud ne se connecte pas", "bluetooth ne marche pas", "erreur de connexion") to
+            "reglage temperatur du rechaud",
+            "comen baisser temprature cuisson",
+            "je veu que sa chaufe plus",
+            "baise la challeur svp",
+            "augmante la temperateur",
+            "feu tro for diminue un peu",
+            "besse la plaque",
+            "fai chauffé plus",
+            "diminue la chauleur",
+            "met le feu moin for",
+
+            "peux-tu chauffer plus fort et allumer la plaque",
+            "baisse la température et active le mode mijoter",
+            "mets à température moyenne et démarre la cuisson",
+            "je veux commencer à cuire à feu doux",
+            "réchauffe un peu et garde la température constante",
+            "lance la cuisson et ajuste la chaleur en même temps",
+            "mets à 60 degrés et active le minuteur",
+            "chauffe à fond puis réduis après 5 minutes",
+            "je veux faire bouillir rapidement, mets température au max",
+            "cuisson douce pendant 10 minutes, règle bien la chaleur",
+
+            "température trop basse, augmente",
+            "je trouve que ça ne chauffe pas assez",
+            "chauffe plus stp",
+            "peux-tu baisser un peu le feu ?",
+            "il faut chauffer davantage",
+            "je veux mijoter doucement",
+            "température optimale pour cuire ?",
+            "ajuste pour cuisson moyenne",
+            "chauffe légèrement",
+            "je veux que ça reste chaud",
+            "plaque pas assez chaude, fais quelque chose",
+
+            "chaufer plis fort",
+            "bais la temprature",
+            "plaque pas assé chaufe",
+            "regle temp a 90degrés",
+            "met feu fort svvp",
+            "comment modif tempratur",
+            "chauf tro, baisse",
+            "faible chauleur, augmente"
+        ) to "Ajustez la température via le bouton dans l’app (de 0 à ≈120). Vous pouvez aussi utiliser des préréglages comme Faire bouillir ou Mijoter.",
+
+                // 3. Connexion & Appairage
+        listOf(
+            "comment connecter le réchaud ?",
+            "comment connecter le rechaud au bluetooth?",
+            "comment connecter le réchaud au bleutooth?",
+            "comment connecter le rechaud au bleutooth ?",
+            "je veux connecter le rechaud au bleutooth ?",
+            "je veux connecter le rechaud au bluetooth ?",
+            "comment connecter le réchaud au bluetooth?",
+            "je veux connecter le telephone au bleutooth ?",
+            "je veux connecter le phone au rechaud par bleutooth ?",
+            "pairing bluetooth",
+            "problème de connexion",
+            "connexion du réchaud",
+            "connecter le réchaud à mon téléphone",
+            "appairer le réchaud",
+            "connexion bluetooth réchaud",
+            "réchaud non connecté",
+            "bluetooth réchaud",
+            "comment jumeler le réchaud",
+            "lancer la connexion",
+            "réchaud introuvable",
+            "coment conecter le rechaud",
+            "paring bluetuth",
+            "problèm de conection",
+            "conecter le rechaud a mon telefone",
+            "apaire le rechaud",
+            "conexon bluetuth rechaud",
+            "bluetuth rechaud",
+            "jumelèr le recho",
+            "lancé la conection",
+            "rechaud introvabl"
+        ) to "1. Activez le Bluetooth de votre smartphone.\n2. Lancez l’app et allez dans Paramètres > Appairage.\n3. Sélectionnez votre réchaud Genesis.\n4. Confirmez le code à 4 chiffres si demandé.",
+
+                listOf("le réchaud ne se connecte pas", "bluetooth ne marche pas", "erreur de connexion") to
                 "Essayez ceci :\n- Redémarrez l’app et le Bluetooth.\n- Vérifiez que le réchaud est sous tension.\n- Si ça persiste, réinitialisez le réchaud (Paramètres > Réinitialiser).",
 
         // 4. Sécurité
@@ -73,10 +378,36 @@ class ChatBotServiceImpl(
                 "Allez dans Paramètres > Réinitialisation usine dans l’app. Confirmez avec votre mot de passe.",
 
         // 6. Astuces & Optimisation
-        listOf("comment économiser l'énergie ?", "réduire consommation") to
-                "Utilisez des casseroles à fond plat, couvrez-les, et privilégiez les puissances moyennes. L’app propose aussi un mode Éco.",
+        listOf(
+            "comment économiser l'énergie ?",
+            "réduire consommation",
+            "economie d'énergie",
+            "réduire ma facture d'électricité",
+            "astuces pour consommer moins d'énergie",
+            "baisser la consommation électrique",
+            "économiser l'électricité à la maison",
+            "conseils pour dépenser moins en énergie",
+            "faire des économies d'énergie",
+            "comment utiliser moins d'électricité",
+            "réduction consommation énergie",
+            "idées pour économiser l'énergie",
+            "techniques pour consommer moins d'électricité",
+            "econimiser l'energie",
+            "réduir consommation",
+            "ekomomie d'energie",
+            "economiser lenergi",
+            "réduction conso denergi",
+            "astuce pour conso moin",
+            "consomé moin d'énérgie",
+            "réduie ma facture electricité",
+            "econome enérgie",
+            "énergir economi"
+        ) to "Utilisez des casseroles à fond plat, couvrez-les, et privilégiez les puissances moyennes. L’app propose aussi un mode Éco.",
 
-        listOf("nettoyer la plaque", "entretien induction") to
+        listOf("et si le rechaud est couvert d'eau je fais comment") to "Si votre rechaud est couvet d'eau contentez vous de l'essuyer avec un tissus sec, puis rallumer après 15 min",
+
+
+                listOf("nettoyer la plaque", "entretien induction", "comment laver du rechaud", "comment nettoyer du rechaud") to
                 "Éteignez le réchaud, puis utilisez un chiffon doux et un produit vitrocéramique. Évitez les abrasifs !",
 
         // 7. Support & Feedback
@@ -89,22 +420,91 @@ class ChatBotServiceImpl(
         // 8. Commandes vocales
         listOf("allume la plaque 2", "puissance maximale", "mets sur mijoter") to
                 "Bien reçu ! La plaque 2 est allumée en mode mijotage (niveau 3). Bonne cuisine !",
-        listOf("faire du pondu", "cuire feuilles de manioc", "recette pondu") to
-                "Lave bien 500g de feuilles de manioc pilées. Fais-les cuire avec un peu d’eau 30 min. Ajoute 2 tomates, 1 oignon, huile de palme, poisson fumé, sel et piment. Laisse mijoter encore 45 min à feu doux.",
+        listOf("c'est quoi la température maximale du rechaud?", "temperature maximale") to " la temperature maximale est de 200 degrés",
+        listOf(
+            "faire du pondu",
+            "cuire feuilles de manioc",
+            "recette pondu",
+            "préparer du pondu",
+            "feuilles de manioc recette",
+            "comment faire le pondu",
+            "cuisson pondu",
+            "cuisiner les feuilles de manioc",
+            "pondu congolais",
+            "pondu au poisson fumé",
+            "comment cuire le pondu",
+            "fèr du pondu",
+            "feuille maniok",
+            "recete de pondu",
+            "preparer pondu",
+            "pondu congole",
+            "cuisiner les feille de manio",
+            "pondu o poisson fumée",
+            "komon fé le pondu",
+            "pondu au poissin fume",
+            "pondu congola"
+        ) to "Lave bien 500g de feuilles de manioc pilées. Fais-les cuire avec un peu d’eau 30 min. Ajoute 2 tomates, 1 oignon, huile de palme, poisson fumé, sel et piment. Laisse mijoter encore 45 min à feu doux.",
 
-        listOf("préparer la bouillie", "bouillie de maïs", "bouillie matin") to
+                listOf("préparer la bouillie", "bouillie de maïs", "bouillie matin") to
                 "Mélange 4 c. à soupe de farine de maïs dans un peu d’eau froide. Ajoute dans 2 verres d’eau bouillante, remue et cuis 10 min. Sucre et ajoute du lait si souhaité.",
 
-        listOf("omelette simple", "oeufs matin", "omelette rapide") to
-                "Bats 2 œufs avec sel et poivre. Fais revenir 1/2 oignon et 1 tomate dans l’huile, ajoute les œufs, et cuis à feu doux jusqu’à ce que ce soit pris.",
+        listOf(
+            "omelette simple",
+            "oeufs matin",
+            "omelette rapide",
+            "faire une omelette",
+            "cuisson œufs matin",
+            "recette omelette facile",
+            "préparer une omelette vite",
+            "omelette express",
+            "cuire des œufs rapidement",
+            "omelette à la tomate",
+            "œufs brouillés maison",
+            "omelette maison rapide",
+            "omelet simpl",
+            "oeuf matin",
+            "omelet rapde",
+            "fer une omelet",
+            "cuson oeuf matin",
+            "recete omelet facille",
+            "preparer une omelete vit",
+            "omelette exprès",
+            "cuires des oeux rapideman",
+            "omelett a la tomat",
+            "comment faire une omelette",
+            "comment cuire une omelette"
+        ) to "Bats 2 œufs avec sel et poivre. Fais revenir 1/2 oignon et 1 tomate dans l’huile, ajoute les œufs, et cuis à feu doux jusqu’à ce que ce soit pris.",
 
-        listOf("faire beignets banane", "recette mikate ya mbila", "beignets doux") to
+
+                listOf("faire des beignets banane", "recette de mikate ya mbila", "beignets doux") to
                 "Écrase 3 bananes mûres. Ajoute 250g de farine, 1 c. à soupe de sucre et 1/2 sachet de levure. Laisse reposer 20 min. Fais frire en petites boules dorées dans de l’huile chaude.",
 
-        listOf("petit déjeuner rapide", "toast sucré", "pain confiture") to
-                "Toaste deux tranches de pain. Étale du miel ou de la confiture. Ajoute des rondelles de banane ou mangue pour un petit-déj express et énergétique.",
+        listOf(
+            "petit déjeuner rapide",
+            "toast sucré",
+            "pain confiture",
+            "petit déj",
+            "répas du matin",
+            "déjeuner express",
+            "recette petit dej",
+            "idée petit déjeuner",
+            "préparer un petit déj rapide",
+            "petit-déjeuner énergétique",
+            "tartine du matin",
+            "breakfast rapide",
+            "peti dejener rapide",
+            "tost sucré",
+            "pain confiutur",
+            "petit dege",
+            "répa du matin",
+            "dejener expres",
+            "recet ptit déj",
+            "ideé ptit dejeuner",
+            "preparé un ptit dej",
+            "ptit-déj energétique"
+        ) to "Toaste deux tranches de pain. Étale du miel ou de la confiture. Ajoute des rondelles de banane ou mangue pour un petit-déj express et énergétique."
 
-        )
+    )
 
     override suspend fun getMessages(): Flow<List<ChatBot>> = callbackFlow {
 
@@ -128,11 +528,21 @@ class ChatBotServiceImpl(
 
     override suspend fun sendMessage(message: ChatSendMessage) {
         val cleanedMessage = message.message.lowercase().trim()
+
+        var isVoicedMessage = false
+        if (message.isVoiceMessage) {
+            isVoicedMessage = true
+        }
+
         chatBotDao.add(ChatBotEntity.fromModel(message.copy(message = cleanedMessage)))
 
         for ((keywords, response) in responseRules) {
             if (keywords.any { cleanedMessage.contains(it) }) {
-                var chat = ChatSendMessage(message = response, isRobot = true)
+                val chat = ChatSendMessage(
+                    message = response,
+                    isRobot = true,
+                    isVoiceMessage = isVoicedMessage
+                )
                 chatBotDao.add(ChatBotEntity.fromModel(chat))
                 return
             }
@@ -141,7 +551,7 @@ class ChatBotServiceImpl(
         chatBotDao.add(
             ChatBotEntity.fromModel(
                 ChatSendMessage(
-                    message = "Désolé, je n’ai pas compris votre demande.",
+                    message = "Désolé, je n’ai pas compris votre demande. Veuillez reformuler ou utiliser un autre ortographe svp. Pour plus d'informations, vous pouvez aller sur notre site web",
                     isRobot = true
                 )
             )

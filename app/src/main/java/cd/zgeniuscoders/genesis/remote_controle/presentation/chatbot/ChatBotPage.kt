@@ -2,8 +2,6 @@ package cd.zgeniuscoders.genesis.remote_controle.presentation.chatbot
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
@@ -102,28 +100,7 @@ fun ChatBotBody(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             IconButton(
                                 onClick = {
-                                    speechRecognizer.setRecognitionListener(object : RecognitionListener {
-                                        override fun onResults(results: Bundle?) {
-                                            val text = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.get(0)
-                                            if (!text.isNullOrBlank()) {
-                                                onEvent(ChatBotEvent.OnMessageFieldChange(text))
-                                                onEvent(ChatBotEvent.OnSendMessageButtonClick)
-                                                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
-                                            }
-                                        }
-
-                                        override fun onReadyForSpeech(params: Bundle?) {}
-                                        override fun onBeginningOfSpeech() {}
-                                        override fun onRmsChanged(rmsdB: Float) {}
-                                        override fun onBufferReceived(buffer: ByteArray?) {}
-                                        override fun onEndOfSpeech() {}
-                                        override fun onError(error: Int) {
-                                            Log.e("SpeechRecognizer", "Erreur $error")
-                                        }
-                                        override fun onPartialResults(partialResults: Bundle?) {}
-                                        override fun onEvent(eventType: Int, params: Bundle?) {}
-                                    })
-                                    speechRecognizer.startListening(recognizerIntent)
+                                    onEvent(ChatBotEvent.OnSendVoiceMessage)
                                 }
                             ) {
                                 Icon(
