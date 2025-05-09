@@ -14,4 +14,7 @@ interface ChatBotDao {
     @Query("SELECT * FROM messages")
     fun all(): Flow<List<ChatBotEntity>>
 
+    @Query("DELETE FROM messages")
+    fun deleteMessages()
+
 }

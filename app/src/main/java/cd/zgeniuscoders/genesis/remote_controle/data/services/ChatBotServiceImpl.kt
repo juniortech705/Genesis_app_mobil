@@ -88,8 +88,23 @@ class ChatBotServiceImpl(
 
         // 8. Commandes vocales
         listOf("allume la plaque 2", "puissance maximale", "mets sur mijoter") to
-                "Bien reçu ! La plaque 2 est allumée en mode mijotage (niveau 3). Bonne cuisine !"
-    )
+                "Bien reçu ! La plaque 2 est allumée en mode mijotage (niveau 3). Bonne cuisine !",
+        listOf("faire du pondu", "cuire feuilles de manioc", "recette pondu") to
+                "Lave bien 500g de feuilles de manioc pilées. Fais-les cuire avec un peu d’eau 30 min. Ajoute 2 tomates, 1 oignon, huile de palme, poisson fumé, sel et piment. Laisse mijoter encore 45 min à feu doux.",
+
+        listOf("préparer la bouillie", "bouillie de maïs", "bouillie matin") to
+                "Mélange 4 c. à soupe de farine de maïs dans un peu d’eau froide. Ajoute dans 2 verres d’eau bouillante, remue et cuis 10 min. Sucre et ajoute du lait si souhaité.",
+
+        listOf("omelette simple", "oeufs matin", "omelette rapide") to
+                "Bats 2 œufs avec sel et poivre. Fais revenir 1/2 oignon et 1 tomate dans l’huile, ajoute les œufs, et cuis à feu doux jusqu’à ce que ce soit pris.",
+
+        listOf("faire beignets banane", "recette mikate ya mbila", "beignets doux") to
+                "Écrase 3 bananes mûres. Ajoute 250g de farine, 1 c. à soupe de sucre et 1/2 sachet de levure. Laisse reposer 20 min. Fais frire en petites boules dorées dans de l’huile chaude.",
+
+        listOf("petit déjeuner rapide", "toast sucré", "pain confiture") to
+                "Toaste deux tranches de pain. Étale du miel ou de la confiture. Ajoute des rondelles de banane ou mangue pour un petit-déj express et énergétique.",
+
+        )
 
     override suspend fun getMessages(): Flow<List<ChatBot>> = callbackFlow {
 
@@ -142,6 +157,10 @@ class ChatBotServiceImpl(
                 )
             )
         )
+    }
+
+    override suspend fun clearMessages() {
+        chatBotDao.deleteMessages()
     }
 
 }

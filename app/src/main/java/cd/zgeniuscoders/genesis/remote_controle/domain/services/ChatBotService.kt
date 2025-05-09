@@ -12,4 +12,6 @@ interface ChatBotService {
 
     suspend fun startChat();
 
+    suspend fun clearMessages()
+
 }

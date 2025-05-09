@@ -28,6 +28,7 @@ class ChatBotViewModel(
             is ChatBotEvent.OnMessageFieldChange -> state = state.copy(message = event.message)
             ChatBotEvent.OnSendMessageButtonClick -> onSendMessage()
             ChatBotEvent.OnStartChat -> onStartChat()
+            ChatBotEvent.ClearMessages -> clearMessages()
         }
     }
 
@@ -46,6 +47,12 @@ class ChatBotViewModel(
         }
     }
 
+    private fun clearMessages(){
+        viewModelScope.launch {
+            chatBotService.clearMessages()
+        }
+    }
+
     private fun onSendMessage() {
         viewModelScope.launch {
             chatBotService.sendMessage(ChatSendMessage(message = state.message))
@@ -53,5 +60,4 @@ class ChatBotViewModel(
 
         state = state.copy(message = "")
     }
-
 }

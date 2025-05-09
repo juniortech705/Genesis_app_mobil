@@ -10,7 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,10 +18,10 @@ import androidx.core.content.ContextCompat
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import cd.zgeniuscoders.genesis.core.domain.utils.preferences
-import cd.zgeniuscoders.genesis.core.presentation.main.RoutePage
 import cd.zgeniuscoders.genesis.common.ui.views.theme.GenesisTheme
 import cd.zgeniuscoders.genesis.core.domain.utils.Constants
+import cd.zgeniuscoders.genesis.core.domain.utils.preferences
+import cd.zgeniuscoders.genesis.core.presentation.main.RoutePage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -48,7 +47,7 @@ class MainActivity : ComponentActivity(){
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
 
         requestBluetoothPermissions()
         requestNotificationPermission()

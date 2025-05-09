@@ -4,6 +4,7 @@ sealed interface ChatBotEvent {
 
     data object OnStartChat: ChatBotEvent
     data object OnSendMessageButtonClick: ChatBotEvent
+    object ClearMessages : ChatBotEvent
 
     data class OnMessageFieldChange(val message: String): ChatBotEvent
 }

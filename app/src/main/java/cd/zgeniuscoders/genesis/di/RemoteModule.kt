@@ -4,8 +4,8 @@ import androidx.room.Room
 import cd.zgeniuscoders.genesis.core.presentation.main.ShareViewModel
 import cd.zgeniuscoders.genesis.remote_controle.data.local.ChatBotDao
 import cd.zgeniuscoders.genesis.remote_controle.data.local.ChatBotDatabase
+import cd.zgeniuscoders.genesis.remote_controle.data.services.BluetoothRemoteControlServiceImpl
 import cd.zgeniuscoders.genesis.remote_controle.data.services.ChatBotServiceImpl
-import cd.zgeniuscoders.genesis.remote_controle.data.services.FakeBluetoothRemoteControlService
 import cd.zgeniuscoders.genesis.remote_controle.data.services.NotificationService
 import cd.zgeniuscoders.genesis.remote_controle.data.services.SpeechRecognitionService
 import cd.zgeniuscoders.genesis.remote_controle.domain.services.ChatBotService
@@ -37,8 +37,7 @@ val remoteModule = module {
 
     single<RemoteControlService> {
         val appContext = androidContext()
-//        BluetoothRemoteControlServiceImpl(appContext)
-        FakeBluetoothRemoteControlService()
+        BluetoothRemoteControlServiceImpl(appContext)
     }
 
     single<ChatBotService> {
