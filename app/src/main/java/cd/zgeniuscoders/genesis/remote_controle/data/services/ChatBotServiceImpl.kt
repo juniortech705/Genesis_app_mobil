@@ -18,7 +18,7 @@ class ChatBotServiceImpl(
     private val chatBotDao: ChatBotDao
 ) : ChatBotService {
 
-    val responseRules = listOf(
+    private val responseRules = listOf(
         // 1. Accueil & Salutations
         listOf(
             "bonjour",
@@ -34,6 +34,7 @@ class ChatBotServiceImpl(
             "hey",
             "coucou",
             "bonsoir",
+            "hello",
             "yo",
             "wesh",
             "slt",
@@ -79,11 +80,106 @@ class ChatBotServiceImpl(
             "hé répondez svp",
             "je veux parler",
             "yo bro, comment",
-            "slt slt"
-        ) to "Bonjour ! Comment puis-je vous aider avec votre réchaud à induction aujourd’hui ?",
+            "slt slt",
+            "Mbote",
+            "ndenge nini",
+            "mbote"
+        ) to "Salut ! Comment puis-je vous aider avec votre réchaud à induction aujourd’hui ?",
 
                 listOf("merci", "merci beaucoup", "super merci", "cool") to
                 "De rien ! N'hésitez pas si vous avez d'autres questions.",
+        listOf("Lingala", "lingala") to
+                "Mbote ! Olingi koloba na Lingala ? Tala ba motuna oyo okoki kotuna nga :\n\n" +
+                "- « Ndenge nini nakoki ko pelisa rechaud ou 1? »\n" +
+                "- « Ndenge nini nakoki ko éteindre plaque ou 2 ? »\n" +
+                "- « Nakoki kokitisa température ndenge nini ou 3 ? »\n" +
+                "- « Température ya ko tokisa biloko ezali boni ou 4 ? »\n" +
+                "- « Nini esalaka soki plaque epesi erreur ou 5 ? »\n" +
+                "- « recette ya omelette ou 7 ? »\n" +
+                "- « Pesa recette ya pondu ou 6 ? »\n\n" +
+                "Tuna kaka, nazali awa mpo na kosalisa yo 😊",
+        // Lancer le réchaud
+        listOf("Ndenge nini nakoki ko pelisa rechaud ?", "ndenge nini nakoki ko pelisa rechaud", "1", "kotiela plaque en marche", "kobeta plaque") to
+                "Pona kotia plaque en marche :\n1. Ouvre application.\n2. Appuye na bouton ya Power.\n3. To lobela micro ya application ( genesis allume toi ).",
+
+// Éteindre le réchaud
+        listOf("Ndenge nini nakoki ko éteindre plaque ?", "ndenge nini nakoki ko éteindre plaque", "2", "stop plaque", "kokanga plaque") to
+                "Pona kokanga plaque :\n1. Kende na application\n2. Appuye na 'Éteindre'. To lobela micro ya application (genesis éteint toi )",
+
+// Régler la température
+        listOf("Nakoki kokitisa température ndenge nini ?", "nakoki kokitisa température ndenge nini", "3", "kotombola température", "régler chaleur") to
+                "Oko regler température na bouton ya app 'Puissance' (kobanda na 0 tii place o lingi).",
+
+// Bouillir ou mijoter
+        listOf("Température ya ko tokisa biloko ezali boni ?", "température ya ko tokisa biloko ezali boni", "4", "kobwaka", "mijoter") to
+                "Soki olingi biloko e toka, tia température na 100° to +. Pona ko mijoter, tika yango na 60-80. Okoki kosala yango na bouton ya application 'Puissance'.",
+
+// Résoudre un problème
+        listOf("Nini esalaka soki plaque epesi erreur ?", "nini esalaka soki plaque epesi erreur", "5", "erreur", "plaque eboyi") to
+                "Soki plaque epesi erreur, Tika yango 10 minutes, puis pesa courant lisusu. Soki ezali kaka problème, reinitialiser plaque na Paramètres.",
+
+// Recette de pondu
+        listOf("Pesa recette ya pondu ?", "recette ya pondu", "pondu ndenge nini", "6") to
+                "Tia feuilles ya manioc na liboka, Tia ba épices ( matungulu, poivron, aie, ndembi, piment vert ), Tuta yango. Tia mayi na mungwa tokisa pendant 30 minutes. Tia mafuta ya mbila, poisson fumé, piment. Zela 45 min lisusu na moto ya moke.",
+        listOf("Ndenge nini nasala omelette ?", "recette ya omelette", "salela omelette", "7") to
+                "Pona kosalela omelette :\n1. Beta ba maki na mungwa na poivre.\n2. tia ndembi ya oignon na tomate moko na mafuta ya huile na kikalungu.\n3. Sopa ba maki.\n4. Tika yango na moto ya mukie.",
+
+
+// Mode économie d’énergie
+        listOf("Ndenge nini nakoki kosalela mode éco ?", "kobatela courant", "mode éco") to
+                "Salela casseroles ya fond plat, couvre mboka, puis tia température moyenne. App ezali na mode Éco mpo na kosalela courant moke.",
+        listOf("français", "Français", "francais", "françai", "Françai", "Francais", "Francai", "francai") to
+                "Bienvenue ! Voici quelques questions que vous pouvez me poser :\n\n" +
+                "- « Comment allumer le réchaud ? ou un»\n" +
+                "- « Comment éteindre le réchaud ? ou deux»\n" +
+                "- « Comment régler la température ? ou trois»\n" +
+                "- « Quelle est la température pour faire bouillir ? ou quatre»\n" +
+                "- « Que faire si la plaque affiche une erreur ? ou cinque »\n" +
+                "- « Quelle est la recette du pondu ? ou six »\n" +
+                "- « Comment faire une omelette ? ou sept »\n" +
+                "- « Comment utiliser le mode éco ? ou huite »\n\n" +
+                "Posez votre question quand vous êtes prêt, je suis là pour vous aider 😊",
+        // Allumer le réchaud
+        listOf("Comment allumer le réchaud ?", "comment allumer le réchaud ?", "Comment allumer le réchaud ", "Comment allumer le rechaud ?", "comment allumer le rechaud ?",
+            "comment allumer le réchaud ", "un", "Un") to
+                "Pour allumer le réchaud :\n1. Ouvrez l’application.\n2. Appuyez sur le bouton Power.\n3. Ou utilisez le micro (genesis allume toi ).",
+
+// Éteindre le réchaud
+        listOf("Comment éteindre le réchaud ?","comment éteindre le réchaud ?", "Comment éteindre le réchaud ", "comment éteindre le réchaud ", "Comment eteindre le rechaud ?",
+            "comment eteindre le rechaud ?", "Comment eteindre le rechaud ", "comment eteindre le rechaud ", "Comment eteindre le réchaud ?", "Deux", "deux") to
+                "Pour éteindre la plaque :\n1. Ouvrez l’application\n2. Cliquez sur le bouton Éteindre. Ou utlisez le micro ( genesis éteint toi )",
+
+
+        listOf("Quelle est la recette de l’omelette ?", "Comment faire une omelette ?", "Sept", "sept") to
+                "Voici une recette simple d’omelette :\n1. Battez 2 œufs avec du sel et du poivre.\n2. Faites revenir 1/2 oignon et 1 tomate dans un peu d’huile.\n3. " +
+                "Ajoutez les œufs battus.\n4. Laissez cuire à feu doux jusqu’à ce que ce soit pris.",
+
+
+// Régler la température
+        listOf("Comment régler la température ?", "comment régler la température ?", "Comment régler la température ", "comment régler la température ",
+            "Comment régler la temperature ?", "comment régler la temperature ?", "Comment régler la temperature ", "comment régler la temperature ",
+            "Comment regler la temperature ", "comment regler la temperature ", "Trois", "trois") to
+                "Vous pouvez régler la température dans l'application (de 0 à 120). Il existe aussi des modes prédéfinis comme Faire bouillir ou Mijoter.",
+
+// Bouillir ou mijoter
+        listOf("Quelle est la température pour faire bouillir ?", "Quatre", "quatre") to
+                "Pour faire bouillir : utilisez une température au-dessus de 100. Pour mijoter : restez entre 60 et 80. Vous pouvez régler ça dans l’app.",
+
+// Résolution d'erreurs
+        listOf("Que faire si la plaque affiche une erreur ?", "Cinque", "cinque") to
+                "Si le réchaud affiche une erreur, éteignez-le pendant 10 minutes, puis rallumez-le. S’il persiste, essayez de le réinitialiser dans Paramètres.",
+
+// Recette : pondu
+        listOf("Quelle est la recette du pondu ?", "quelle est la recette du pondu ?", "Quelle est la recette du pondu ", "quelle est la recette du pondu ", "Six", "six") to
+                "Mets les feuilles de manioc dans une casserole. Ajoute les épices (tomates, poivron, ail, oignons, piment vert), puis pile le tout. Mets dans de l’eau avec du sel et laisse au feu spendant 30 minutes. Ajoute de l’huile de palme, du poisson fumé et du piment. Laisse encore cuire 45 minutes à feu doux.",
+
+// Mode économie d’énergie
+        listOf("Comment utiliser le mode éco ?", "Huite", "huite") to
+                "Utilisez des casseroles à fond plat, couvrez-les, et utilisez une puissance moyenne. L’application propose aussi un mode Éco pour optimiser l’énergie.",
+
+
+
+
 
         listOf(
             "au revoir",
@@ -141,6 +237,8 @@ class ChatBotServiceImpl(
                 // 2. Fonctionnement de Base
         listOf(
             "comment allumer le réchaud ?",
+            "génésis allume toi",
+            "genesis allume toi",
             "comment demarrer mon réchaud à distance",
             "comment demarrer mon rechaud à distance",
             "comment demarrer mon rechaud à distance",
@@ -199,6 +297,10 @@ class ChatBotServiceImpl(
             "comment éteindre le réchaud ?",
             "je veux éteindre le réchaud",
             "éteindre la plaque",
+            "genesis éteint toi",
+            "génésis éteint toi",
+            "génésis eteint toi",
+            "genesis eteint toi",
             "comment couper le réchaud",
             "comment arrêter le réchaud",
             "arrêter la cuisson",
@@ -551,7 +653,7 @@ class ChatBotServiceImpl(
         chatBotDao.add(
             ChatBotEntity.fromModel(
                 ChatSendMessage(
-                    message = "Désolé, je n’ai pas compris votre demande. Veuillez reformuler ou utiliser un autre ortographe svp. Pour plus d'informations, vous pouvez aller sur notre site web",
+                    message = "Désolé, je n’ai pas compris votre demande. Veuillez reformuler ou utiliser un autre ortographe svp. Pour plus d'informations, vous pouvez aller sur notre site web: https://www.Specialgenesis.com",
                     isRobot = true
                 )
             )
@@ -562,7 +664,7 @@ class ChatBotServiceImpl(
         chatBotDao.add(
             ChatBotEntity.fromModel(
                 ChatSendMessage(
-                    "Salut, comment puis-je t'aider ?",
+                    "Salut, Je suis Athena, votre assistant pour l'utilisation de votre réchaud à Induction Genesis.\nCommencer par choisir une langue en écrivant:\n- Français \n  OU \n- Lingala ?",
                     isRobot = true
                 )
             )
