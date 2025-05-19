@@ -18,16 +18,18 @@ class ChatBotServiceImpl(
     private val chatBotDao: ChatBotDao
 ) : ChatBotService {
 
-    private val responseRules = listOf(
+     private val responseRules = listOf(
         // 1. Accueil & Salutations
         listOf(
             "bonjour",
             "bonjour athena",
+            "bjr athena",
             "Bonjour athena",
-            "Bonjour athena",
+            "Salut athena",
             "salut athena",
             "athena",
             "Athena",
+            "yo athena",
             "genesis",
             "Genesis",
             "salut",
@@ -38,6 +40,7 @@ class ChatBotServiceImpl(
             "yo",
             "wesh",
             "slt",
+            "slt athena",
             "bjr",
             "cc",
             "yop",
@@ -84,7 +87,7 @@ class ChatBotServiceImpl(
             "Mbote",
             "ndenge nini",
             "mbote"
-        ) to "Salut ! Comment puis-je vous aider avec votre réchaud à induction aujourd’hui ?",
+        ) to "Salut ! Comment puis-je vous aider avec votre réchaud à induction aujourd’hui ?\nChoisis une langue!",
 
                 listOf("merci", "merci beaucoup", "super merci", "cool") to
                 "De rien ! N'hésitez pas si vous avez d'autres questions.",
@@ -120,7 +123,8 @@ class ChatBotServiceImpl(
 
 // Recette de pondu
         listOf("Pesa recette ya pondu ?", "recette ya pondu", "pondu ndenge nini", "6") to
-                "Tia feuilles ya manioc na liboka, Tia ba épices ( matungulu, poivron, aie, ndembi, piment vert ), Tuta yango. Tia mayi na mungwa tokisa pendant 30 minutes. Tia mafuta ya mbila, poisson fumé, piment. Zela 45 min lisusu na moto ya moke.",
+                "Tia feuilles ya manioc na liboka, Tia ba épices ( matungulu, poivron, aie, ndembi, piment vert ), Tuta yango. Tia mayi na mungwa tokisa pendant 30 minutes. " +
+                "Tia mafuta ya mbila, poisson fumé, piment. Zela 45 min lisusu na moto ya moke.",
         listOf("Ndenge nini nasala omelette ?", "recette ya omelette", "salela omelette", "7") to
                 "Pona kosalela omelette :\n1. Beta ba maki na mungwa na poivre.\n2. tia ndembi ya oignon na tomate moko na mafuta ya huile na kikalungu.\n3. Sopa ba maki.\n4. Tika yango na moto ya mukie.",
 
@@ -171,7 +175,34 @@ class ChatBotServiceImpl(
 
 // Recette : pondu
         listOf("Quelle est la recette du pondu ?", "quelle est la recette du pondu ?", "Quelle est la recette du pondu ", "quelle est la recette du pondu ", "Six", "six") to
-                "Mets les feuilles de manioc dans une casserole. Ajoute les épices (tomates, poivron, ail, oignons, piment vert), puis pile le tout. Mets dans de l’eau avec du sel et laisse au feu spendant 30 minutes. Ajoute de l’huile de palme, du poisson fumé et du piment. Laisse encore cuire 45 minutes à feu doux.",
+                "Mets les feuilles de manioc dans une casserole. Ajoute les épices (tomates, poivron, ail, oignons, piment vert), puis pile le tout. " +
+                "Mets dans de l’eau avec du sel et laisse au feu spendant 30 minutes. " +
+                "Ajoute de l’huile de palme, du poisson fumé et du piment. Laisse encore cuire 45 minutes à feu doux.",
+        listOf("Comment faire du poulet yassa ?", "recette poulet yassa", "poulet yassa sénégalais", "ingrédients poulet yassa") to
+                 "1. Marine le poulet avec citron, oignons et moutarde pendant 2h. " +
+                 "2. Fais griller le poulet au four. " +
+                 "3. Dans une marmite, fais revenir les oignons marinés. " +
+                 "4. Ajoute le poulet et un peu d'eau. " +
+                 "5. Laisse mijoter 20 minutes. " +
+                 "6. Serre avec du riz blanc.",
+         listOf("recette mac and cheese", "macaronis au fromage", "faire du mac & cheese") to
+                 "Faites cuire 250g de macaronis. Dans une casserole, faites fondre 50g de beurre, ajoutez 50g de farine, puis 500ml de lait pour faire une béchamel. " +
+                 "Ajoutez 200g de cheddar râpé. Mélangez aux pâtes. Gratinez 15 min au four à 180°C.",
+         listOf("recette du ndolé", "comment préparer ndolé", "ndolé camerounais") to
+                 "Faites bouillir et égoutter 500g de feuilles de ndolé. Faites cuire 300g de viande et 200g de crevettes séparément. " +
+                 "Mixez 100g d’arachides grillées. Faites revenir oignon, ail, puis ajoutez tous les ingrédients. Salez, poivrez, et laissez mijoter 30 min.",
+         listOf("préparer du tô", "recette de bouillie de mil", "faire du tô africain") to
+                 "Faites bouillir 1L d’eau. Mélangez 250g de farine de mil dans un peu d’eau froide. " +
+                 "Versez dans l’eau bouillante en remuant énergiquement pour éviter les grumeaux. Laissez cuire 10 minutes à feu doux jusqu’à épaississement. " +
+                 "Servez chaud avec une sauce gombo ou arachide.",
+
+         // 3. Ratatouille
+         listOf("recette ratatouille", "comment faire une ratatouille", "légumes ratatouille") to
+                 "Coupez 1 aubergine, 2 courgettes, 1 poivron, 2 tomates, 1 oignon. Faites revenir l’oignon avec de l’huile d’olive. Ajoutez les légumes un à un. Salez, poivrez, ajoutez du thym. Laissez mijoter 45 min à feu doux jusqu’à ce que les légumes soient fondants.",
+
+
+
+
 
 // Mode économie d’énergie
         listOf("Comment utiliser le mode éco ?", "Huite", "huite") to
@@ -357,7 +388,7 @@ class ChatBotServiceImpl(
             "mettre plus chaud",
             "régler la teperature",
             "régler la plaque",
-            "comen regler la temperature",
+            "comment regler la temperature",
             "augmenter la chaleure",
             "baiser la temperature",
             "regler la temperature",
@@ -439,6 +470,11 @@ class ChatBotServiceImpl(
             "problème de connexion",
             "connexion du réchaud",
             "connecter le réchaud à mon téléphone",
+            "comment connecter le réchaud au téléphone ?",
+            "comment onnecter le réchaud à mon téléphone?",
+            "connecter le rechaud au téléphone",
+            "comment connecter le rechaud a mon téléphone",
+            "comment connecter le rechaud au téléphone",
             "appairer le réchaud",
             "connexion bluetooth réchaud",
             "réchaud non connecté",
@@ -467,6 +503,10 @@ class ChatBotServiceImpl(
 
         listOf(
             "quelle casserole utiliser ?",
+            "quelle type casserole utiliser ?",
+            "Quelle casserole utiliser ?",
+            "quelle marmite utiliser ?",
+            "quelle type de marmite utiliser ?",
             "compatibilité ustensiles",
             "pourquoi ça ne chauffe pas ?"
         ) to
@@ -506,10 +546,10 @@ class ChatBotServiceImpl(
             "énergir economi"
         ) to "Utilisez des casseroles à fond plat, couvrez-les, et privilégiez les puissances moyennes. L’app propose aussi un mode Éco.",
 
-        listOf("et si le rechaud est couvert d'eau je fais comment") to "Si votre rechaud est couvet d'eau contentez vous de l'essuyer avec un tissus sec, puis rallumer après 15 min",
+        listOf("et si le rechaud est couvert d'eau je fais comment", "Comment faire si le rechaud est couvert d'eau ") to "Si votre rechaud est couvet d'eau contentez vous de l'essuyer avec un tissus sec, puis rallumer après 15 min",
 
 
-                listOf("nettoyer la plaque", "entretien induction", "comment laver du rechaud", "comment nettoyer du rechaud") to
+                listOf("nettoyer la réchaud", "entretien induction", "comment laver du rechaud", "comment nettoyer du rechaud") to
                 "Éteignez le réchaud, puis utilisez un chiffon doux et un produit vitrocéramique. Évitez les abrasifs !",
 
         // 7. Support & Feedback
@@ -522,7 +562,26 @@ class ChatBotServiceImpl(
         // 8. Commandes vocales
         listOf("allume la plaque 2", "puissance maximale", "mets sur mijoter") to
                 "Bien reçu ! La plaque 2 est allumée en mode mijotage (niveau 3). Bonne cuisine !",
-        listOf("c'est quoi la température maximale du rechaud?", "temperature maximale") to " la temperature maximale est de 200 degrés",
+        listOf(
+            "quelle est la température maximale du réchaud",
+            "quelle est la temperature maximale du rechaud",
+            "Quelle est la température maximale du réchaud",
+            "Quelle est la temperature maximale du rechaud",
+            "quelle est la température max du réchaud",
+            "quelle est la temperature max du rechaud",
+            "quelle est la température maximale du rechau",
+            "quelle est la temperature maximale rechau",
+            "température maximale du réchaud",
+            "temperature maximale du rechaud",
+            "TEMPERATURE MAXIMALE DU RECHAUD",
+            "temperature max rechaud",
+            "température max réchaud",
+            "c’est quoi la temperature maximale du rechaud",
+            "c'est quoi la température max du réchaud",
+            "combien de degrés max pour le réchaud",
+            "quelle température le réchaud peut atteindre",
+            "quelle est la température la plus haute du réchaud"
+        ) to " la temperature maximale est de 200 degrés",
         listOf(
             "faire du pondu",
             "cuire feuilles de manioc",
@@ -547,10 +606,143 @@ class ChatBotServiceImpl(
             "pondu congola"
         ) to "Lave bien 500g de feuilles de manioc pilées. Fais-les cuire avec un peu d’eau 30 min. Ajoute 2 tomates, 1 oignon, huile de palme, poisson fumé, sel et piment. Laisse mijoter encore 45 min à feu doux.",
 
-                listOf("préparer la bouillie", "bouillie de maïs", "bouillie matin") to
+                listOf("recette de bouillie", "bouillie de maïs", "bouillie matin") to
                 "Mélange 4 c. à soupe de farine de maïs dans un peu d’eau froide. Ajoute dans 2 verres d’eau bouillante, remue et cuis 10 min. Sucre et ajoute du lait si souhaité.",
+         // 6. Riz pilaf
+         listOf("recette de riz pilaf", "comment faire du riz pilaf", "cuisson riz pilaf") to
+                 "Faites revenir 1 oignon émincé dans de l’huile. " +
+                 "Ajoutez 200g de riz non cuit et faites-le nacrer 2 minutes. Versez 400ml d’eau chaude, salez. Couvrez et laissez cuire à feu doux 15-18 minutes. Laissez reposer 5 min avant de servir.",
 
-        listOf(
+// 7. Frites de plantain
+         listOf("recette des frites de banane plantain", "recette plantain frit", "plantain à la poêle") to
+                 "Épluchez les bananes plantains mûres. " +
+                 "Coupez-les en rondelles ou en diagonales. Faites-les frire dans de l’huile chaude jusqu’à ce qu’elles soient dorées. Égouttez sur du papier absorbant et salez légèrement.",
+
+// 8. Couscous royal
+         listOf("recette de couscous royal", "comment faire du couscous royal", "cuisson couscous viande légumes") to
+                 "Faites cuire semoule à la vapeur. " +
+                 "Préparez un bouillon avec poulet, merguez, agneau, pois chiches, carottes, courgettes. Ajoutez épices (ras el hanout, cumin, coriandre). Servez la semoule avec les viandes et légumes.",
+
+// 9. Saka-saka (feuilles de manioc braisées)
+         listOf("recette de saka-saka", "préparer saka saka", "cuisson feuilles manioc braisées") to
+                 "Pilez 500g de feuilles de manioc. Faites-les bouillir avec de l’eau, du sel et 1 oignon. " +
+                 "Ajoutez 2 cuillères d’huile de palme, du poisson fumé et laissez mijoter 1h à feu doux. Remuez régulièrement.",
+
+// 10. Poulet DG (directeur général)
+         listOf("recette de poulet DG", "comment faire poulet DG", "poulet plantain camerounais") to
+                 "Faites revenir morceaux de poulet avec sel, ail, oignon. Ajoutez des bananes plantains frites, poivron, carottes. Ajoutez une sauce tomate assaisonnée, laissez mijoter 20 min. Servez chaud.",
+
+// 11. Poulet Yassa
+         listOf("recette de poulet yassa", "comment faire du yassa", "yassa sénégalais") to
+                 "Faites mariner le poulet dans citron, oignon, moutarde, ail. Faites griller les morceaux, puis faites revenir les oignons dans l’huile. " +
+                 "Remettez le poulet avec la marinade. Laissez mijoter 30 min. Servez avec du riz.",
+
+// 12. Burger américain classique
+         listOf("recette de burger américain", "faire un hamburger maison", "burger boeuf classique") to
+                 "Faites griller un steak haché. Toastez les pains. Ajoutez mayonnaise, laitue, tomate, oignon, fromage, puis le steak. Refermez le burger et servez chaud avec des frites.",
+
+// 13. Fufu de manioc
+         listOf("préparer du fufu de manioc", "recette du fufu", "cuisson fufu traditionnel") to
+                 "Faites cuire la pâte de manioc fermentée dans l’eau bouillante. Remuez avec une spatule en bois jusqu’à obtenir une pâte élastique. Formez en boules et servez avec une sauce chaude.",
+
+// 14. Boulettes de viande sauce tomate
+         listOf("recette de boulettes à la sauce tomate", "faire boulettes viande", "cuisson boulettes maison") to
+                 "Mélangez viande hachée, ail, oignon, persil, œuf, chapelure. Formez des boulettes. Faites-les revenir dans l’huile, puis ajoutez une sauce tomate maison. Laissez mijoter 15-20 min à feu doux.",
+
+// 15. Omelette nature
+         listOf("recette de omelette simple", "comment faire une omelette", "omelette aux œufs") to
+                 "Battez 2 œufs avec du sel, du poivre. Faites fondre un peu de beurre dans une poêle. Versez les œufs battus. Cuisez 2 à 3 minutes à feu moyen. Pliez et servez chaud.",
+
+// 16. Crêpes sucrées
+         listOf("recette de crêpes sucrées", "faire des crêpes maison", "crêpes faciles") to
+                 "Mélangez 250g de farine, 2 œufs, 500ml de lait, 1 pincée de sel, 1 sachet de sucre vanillé. Laissez reposer 30 min. Faites cuire dans une poêle beurrée chaude 1 min de chaque côté.",
+
+// 17. Riz jollof
+         listOf("recette de riz jollof", "riz tomate africain", "comment faire jollof rice") to
+                 "Faites revenir oignon, ail, poivron, purée de tomate, piment. Ajoutez 2 verres de riz rincé, 4 verres de bouillon. " +
+                 "Salez, couvrez et laissez cuire 20-25 min à feu doux. Ajoutez légumes ou viande si désiré.",
+
+// 18. Lasagnes à la bolognaise
+         listOf("recette de lasagnes", "faire des lasagnes maison", "lasagnes bœuf sauce tomate") to
+                 "Faites revenir oignon, ail, viande hachée. Ajoutez sauce tomate. Alternez dans un plat : feuilles de lasagne, sauce, béchamel, fromage râpé. Terminez par du fromage. Cuire 35 min à 180°C.",
+
+// 19. Mafé (sauce arachide)
+         listOf("recette de mafé", "sauce arachide", "préparer mafé africain") to
+                 "Faites revenir viande avec oignon, ail. Ajoutez purée de tomate. Incorporez 3 c. à s. de pâte d’arachide diluée. Ajoutez de l’eau, laissez mijoter 45 min. Servez avec du riz.",
+
+// 20. Poisson braisé
+         listOf("recette de poisson braisé", "comment faire du poisson braisé", "poisson grillé africain") to
+                 "Faites mariner le poisson entier avec ail, gingembre, citron, poivre. Faites griller au charbon ou au four. Retournez régulièrement. Servez avec des oignons sautés et de l’attiéké.",
+
+// 21. Beignets sucrés africains
+         listOf("recette de beignets africains", "faire mikate", "beignets congolais") to
+                 "Mélangez 500g de farine, 1 sachet de levure, 100g de sucre, 1 œuf, 250ml d’eau tiède. Laissez lever 1h. Faites frire en petites boules jusqu’à ce qu’ils soient bien dorés.",
+
+// 22. Purée de pommes de terre
+         listOf("recette de purée maison", "faire purée pommes de terre", "cuisson purée simple") to
+                 "Faites cuire 1kg de pommes de terre épluchées à l’eau salée. Écrasez-les avec du lait chaud et 50g de beurre. Salez, poivrez. Servez chaud.",
+
+// 23. Sauce tomate fraîche
+         listOf("recette de sauce tomate", "faire sauce tomate maison", "cuisson tomates fraîches") to
+                 "Faites revenir oignon, ail, puis ajoutez 5 tomates pelées mixées. Ajoutez du basilic, sel, poivre, un filet d’huile d’olive. Laissez mijoter 20 min à feu doux.",
+
+// 24. Pâtes à la carbonara
+         listOf("recette de carbonara", "pâtes carbonara maison", "faire carbonara traditionnelle") to
+                 "Faites cuire les pâtes. Dans un bol, battez 2 œufs avec du parmesan. Faites revenir des lardons. Égouttez les pâtes, ajoutez les œufs hors du feu, puis les lardons. Mélangez et servez chaud.",
+
+// 25. Pizza Margherita
+         listOf("recette de pizza ", "faire pizza maison", "pâte pizza tomate mozzarella") to
+                 "Préparez une pâte à pizza. Étalez-la, ajoutez sauce tomate, mozzarella, basilic. Cuisez 15-20 min au four à 220°C. Servez chaud.",
+         listOf(
+             "recette de spaghettis", "cuisson spaghettis", "faire des pâtes",
+             "spaghettis sauce tomate", "pâtes à la tomate", "spaghettis bolognaise",
+             "comment faire des spaghettis simples", "spaghetti rapide"
+         ) to
+                 "Faites bouillir 1L d’eau salée. Ajoutez 200g de spaghettis, laissez cuire 8 à 10 min. Égouttez. " +
+                 "Dans une poêle, faites revenir oignon, ail, tomates ou purée de tomate. Ajoutez huile, sel, poivre, cube. Mélangez avec les pâtes et servez chaud.",
+         listOf(
+             "recette de saucisse", "cuisson saucisses", "faire des saucisses grillées",
+             "saucisse poêlée", "saucisses sauce tomate", "saucisses avec spaghettis",
+             "comment cuire saucisses", "préparer saucisses maison"
+         ) to
+                 "Piquez légèrement les saucisses avec une fourchette. Faites-les cuire à la poêle avec un peu d’huile pendant 10 min, en les retournant régulièrement. " +
+                 "Pour une version en sauce : ajoutez oignons, tomates, ail, cube et laissez mijoter 15 min. Servez avec riz, pâte ou pain.",
+         listOf(
+             "recette de flocons d’avoine", "comment faire des flocons d’avoine",
+             "préparer du quaker", "cuisson quaker", "flocons avoine au lait",
+             "quaker au lait", "porridge quaker", "quaker avec banane"
+         ) to
+                 "Faites chauffer 250ml de lait (ou d’eau). Ajoutez 4 cuillères à soupe de flocons d’avoine. Laissez cuire 5 à 7 min en remuant. " +
+                 "Ajoutez sucre, banane, miel, fruits secs selon vos goûts. Servez chaud comme petit-déjeuner nutritif.",
+         listOf(
+             "recette de tacos", "faire tacos maison", "comment faire des tacos",
+             "tacos simple à la maison", "préparation de tacos", "tacos viande hachée",
+             "tacos fromage", "tacos au poulet", "recette de tacos facile"
+         ) to
+                 "Faites revenir de la viande hachée (ou poulet émincé) avec oignon, ail, paprika, sel. " +
+                 "Réchauffez des tortillas. Garnissez avec la viande, fromage râpé, sauce blanche ou piquante, salade, tomates. Roulez les tacos et passez-les 5 min au grill si souhaité.",
+         listOf(
+             "recette des haricots",
+             "recette haricots africains",
+             "comment préparer les haricots",
+             "cuisson haricot rouge africain",
+             "faire des haricots africains",
+             "préparation haricots rouges",
+             "comment faire haricot africain",
+             "cuisiner haricots façon africaine",
+             "haricots à la congolaise",
+             "haricot à la camerounaise"
+         ) to
+                 "Faites tremper 500g de haricots rouges une nuit. Égouttez et faites cuire dans de l’eau pendant 45 à 60 min. Dans une autre casserole, faites revenir 1 oignon, 2 tomates, ail, huile, cube et piment. " +
+                 "Ajoutez les haricots cuits, laissez mijoter 15 min. Servez avec du riz, du manioc ou des bananes plantain.",
+
+
+
+
+
+
+
+                 listOf(
             "omelette simple",
             "oeufs matin",
             "omelette rapide",
